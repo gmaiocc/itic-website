@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { Users, Megaphone, Handshake, Award } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import operationsImg from "@/assets/operations-head.png";
+import operationsImg from "@/assets/operationsheadv2.png";
 
 const HumanResourcesPage = () => {
   return (

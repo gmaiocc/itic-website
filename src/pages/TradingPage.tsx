@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { TrendingUp, Target, LineChart, Trophy } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import tradingImg from "@/assets/trading-head.png";
+import tradingImg from "@/assets/tradingheadv2.png";
 
 const TradingPage = () => {
   return (

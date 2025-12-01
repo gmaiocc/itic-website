@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { FileText, TrendingUp, BarChart2, BookOpen } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import researchImg from "@/assets/research head.png";
+import researchImg from "@/assets/researchheadv2.png";
 
 const ResearchPage = () => {
   return (
