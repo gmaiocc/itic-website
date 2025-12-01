@@ -11,6 +11,7 @@ import ResearchPage from "./pages/ResearchPage";
 import HumanResourcesPage from "./pages/HumanResourcesPage";
 import TeamPage from "./pages/TeamPage";
 import ReportsPage from "./pages/ReportsPage";
+import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,8 +29,9 @@ const App = () => (
           <Route path="/departments/asset-management" element={<AssetManagementPage />} />
           <Route path="/departments/research" element={<ResearchPage />} />
           <Route path="/departments/human-resources" element={<HumanResourcesPage />} />
-          <Route path="/team" element={<TeamPage />} />
+          <Route path="/gallery" element={<TeamPage />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -115,7 +115,7 @@ const About = () => {
         >
           <div className="max-w-4xl mx-auto">
             <h3 className="text-3xl sm:text-4xl font-heading font-bold mb-6">
-              What We Do
+              Overview of Our Departments
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
               {whatWeDo.map((item, index) => (
@@ -128,10 +128,12 @@ const About = () => {
                   whileHover={{ scale: 1.02 }}
                   className="space-y-3 cursor-pointer"
                 >
-                  <h4 className="text-xl font-semibold text-accent">
+                  <h4 className="text-xl font-semibold text-white">
                     {item.title}
                   </h4>
-                  <p className="text-white/90">{item.description}</p>
+                  <p className="text-white/90">
+                    {item.description}
+                  </p>
                 </motion.div>
               ))}
             </div>

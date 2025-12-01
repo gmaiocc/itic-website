@@ -1,7 +1,13 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Download, TrendingUp, FileText, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +25,7 @@ const ReportsPage = () => {
       title: "Crypto Report",
       description: "...",
       date: "November 2025",
-      category: "Market Analysis",
+      category: "marketanalysis",
     },
   ];
 
@@ -42,7 +48,7 @@ const ReportsPage = () => {
     <PageTransition>
       <div className="min-h-screen">
         <Navbar />
-        
+
         <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-background via-muted/30 to-background">
           <div className="container mx-auto max-w-6xl">
             <motion.div
@@ -51,8 +57,8 @@ const ReportsPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary-foreground to-primary bg-clip-text text-transparent">
-                Research Reports
+              <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6 text-foreground">
+                Reports
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Access our latest market analysis, research reports, and investment insights
@@ -62,9 +68,9 @@ const ReportsPage = () => {
             <Tabs defaultValue="all" className="w-full">
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 mb-12">
                 <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="market">Sunday Scan</TabsTrigger>
+                <TabsTrigger value="sundayscan">Sunday Scan</TabsTrigger>
                 <TabsTrigger value="research">Research</TabsTrigger>
-                <TabsTrigger value="performance">Performance</TabsTrigger>
+                <TabsTrigger value="marketanalysis">Market Analysis</TabsTrigger>
               </TabsList>
 
               <TabsContent value="all">
@@ -80,11 +86,19 @@ const ReportsPage = () => {
                         <CardHeader>
                           <div className="flex items-start justify-between mb-2">
                             <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              {report.category === "Market Analysis" && <TrendingUp className="w-6 h-6 text-primary" />}
-                              {report.category === "Research" && <FileText className="w-6 h-6 text-primary" />}
-                              {report.category === "Performance" && <BarChart3 className="w-6 h-6 text-primary" />}
+                              {report.category === "marketanalysis" && (
+                                <TrendingUp className="w-6 h-6 text-primary" />
+                              )}
+                              {report.category === "research" && (
+                                <FileText className="w-6 h-6 text-primary" />
+                              )}
+                              {report.category === "sundayscan" && (
+                                <BarChart3 className="w-6 h-6 text-primary" />
+                              )}
                             </div>
-                            <span className="text-sm text-muted-foreground">{report.date}</span>
+                            <span className="text-sm text-muted-foreground">
+                              {report.date}
+                            </span>
                           </div>
                           <CardTitle className="group-hover:text-primary transition-colors">
                             {report.title}
@@ -92,7 +106,10 @@ const ReportsPage = () => {
                           <CardDescription>{report.description}</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <Button
+                            variant="outline"
+                            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                          >
                             <Download className="w-4 h-4 mr-2" />
                             Ver mais
                           </Button>
@@ -110,28 +127,37 @@ const ReportsPage = () => {
                   animate="visible"
                   className="grid md:grid-cols-2 gap-6"
                 >
-                  {reports.filter(r => r.category === "Market Analysis").map((report, index) => (
-                    <motion.div key={index} variants={itemVariants}>
-                      <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                        <CardHeader>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              <TrendingUp className="w-6 h-6 text-primary" />
+                  {reports
+                    .filter((r) => r.category === "marketanalysis")
+                    .map((report, index) => (
+                      <motion.div key={index} variants={itemVariants}>
+                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                          <CardHeader>
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <TrendingUp className="w-6 h-6 text-primary" />
+                              </div>
+                              <span className="text-sm text-muted-foreground">
+                                {report.date}
+                              </span>
                             </div>
-                            <span className="text-sm text-muted-foreground">{report.date}</span>
-                          </div>
-                          <CardTitle className="group-hover:text-primary transition-colors">{report.title}</CardTitle>
-                          <CardDescription>{report.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            <Download className="w-4 h-4 mr-2" />
-                            Download Report
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                            <CardTitle className="group-hover:text-primary transition-colors">
+                              {report.title}
+                            </CardTitle>
+                            <CardDescription>{report.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <Button
+                              variant="outline"
+                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                            >
+                              <Download className="w-4 h-4 mr-2" />
+                              Download Report
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
                 </motion.div>
               </TabsContent>
 
@@ -142,60 +168,78 @@ const ReportsPage = () => {
                   animate="visible"
                   className="grid md:grid-cols-2 gap-6"
                 >
-                  {reports.filter(r => r.category === "Research").map((report, index) => (
-                    <motion.div key={index} variants={itemVariants}>
-                      <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                        <CardHeader>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              <FileText className="w-6 h-6 text-primary" />
+                  {reports
+                    .filter((r) => r.category === "Research")
+                    .map((report, index) => (
+                      <motion.div key={index} variants={itemVariants}>
+                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                          <CardHeader>
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <FileText className="w-6 h-6 text-primary" />
+                              </div>
+                              <span className="text-sm text-muted-foreground">
+                                {report.date}
+                              </span>
                             </div>
-                            <span className="text-sm text-muted-foreground">{report.date}</span>
-                          </div>
-                          <CardTitle className="group-hover:text-primary transition-colors">{report.title}</CardTitle>
-                          <CardDescription>{report.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            <Download className="w-4 h-4 mr-2" />
-                            ver mais
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                            <CardTitle className="group-hover:text-primary transition-colors">
+                              {report.title}
+                            </CardTitle>
+                            <CardDescription>{report.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <Button
+                              variant="outline"
+                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                            >
+                              <Download className="w-4 h-4 mr-2" />
+                              ver mais
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
                 </motion.div>
               </TabsContent>
 
-              <TabsContent value="performance">
+              <TabsContent value="marketanalysis">
                 <motion.div
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
                   className="grid md:grid-cols-2 gap-6"
                 >
-                  {reports.filter(r => r.category === "Performance").map((report, index) => (
-                    <motion.div key={index} variants={itemVariants}>
-                      <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                        <CardHeader>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              <BarChart3 className="w-6 h-6 text-primary" />
+                  {reports
+                    .filter((r) => r.category === "marketanalysis")
+                    .map((report, index) => (
+                      <motion.div key={index} variants={itemVariants}>
+                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                          <CardHeader>
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                                <BarChart3 className="w-6 h-6 text-primary" />
+                              </div>
+                              <span className="text-sm text-muted-foreground">
+                                {report.date}
+                              </span>
                             </div>
-                            <span className="text-sm text-muted-foreground">{report.date}</span>
-                          </div>
-                          <CardTitle className="group-hover:text-primary transition-colors">{report.title}</CardTitle>
-                          <CardDescription>{report.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            <Download className="w-4 h-4 mr-2" />
-                            ver mais
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                            <CardTitle className="group-hover:text-primary transition-colors">
+                              {report.title}
+                            </CardTitle>
+                            <CardDescription>{report.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <Button
+                              variant="outline"
+                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                            >
+                              <Download className="w-4 h-4 mr-2" />
+                              ver mais
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
                 </motion.div>
               </TabsContent>
             </Tabs>

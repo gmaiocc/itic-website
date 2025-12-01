@@ -68,8 +68,9 @@ const Navbar = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link to="/team" className="text-foreground hover:text-primary font-medium transition-smooth">Team</Link>
+            <Link to="/gallery" className="text-foreground hover:text-primary font-medium transition-smooth">Gallery</Link>
             <Link to="/reports" className="text-foreground hover:text-primary font-medium transition-smooth">Reports</Link>
+            <Link to="/contact" className="text-foreground hover:text-primary font-medium transition-smooth">Contact</Link>
           </div>
 
           <button className="md:hidden p-2 rounded-lg hover:bg-muted transition-smooth" onClick={() => setIsOpen(!isOpen)}>
@@ -100,8 +101,9 @@ const Navbar = () => {
               )}
             </div>
 
-            <Link to="/team" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Team</Link>
+            <Link to="/gallery" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Gallery</Link>
             <Link to="/reports" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Reports</Link>
+            <Link to="/contact" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Contact</Link>
           </div>
         </div>
       )}
