@@ -7,29 +7,55 @@ const About = () => {
     {
       icon: Target,
       title: "Mission",
-      description: "To bridge academic finance theory with real-world trading practice, creating a community of informed investors."
+      description:
+        "To bridge academic finance theory with real-world trading practice, creating a community of informed investors.",
     },
     {
       icon: Users,
       title: "Community",
-      description: "A diverse network of students passionate about markets, sharing knowledge and growing together."
+      description:
+        "A diverse network of students passionate about markets, sharing knowledge and growing together.",
     },
     {
       icon: Lightbulb,
       title: "Innovation",
-      description: "Embracing cutting-edge financial technologies and strategies to stay ahead in dynamic markets."
+      description:
+        "Embracing cutting-edge financial technologies and strategies to stay ahead in dynamic markets.",
     },
     {
       icon: Award,
       title: "Excellence",
-      description: "Committed to the highest standards in education, networking, and professional development."
-    }
+      description:
+        "Committed to the highest standards in education, networking, and professional development.",
+    },
+  ];
+
+  const whatWeDo = [
+    {
+      title: "Trading & Market Strategy",
+      description:
+        "The Trading Department structures weekly market scans, develops systematic and discretionary strategies, and works on risk-managed trading frameworks across different asset classes.",
+    },
+    {
+      title: "Asset Management & Portfolios",
+      description:
+        "The Asset Management Department screens markets, builds equity research, and designs diversified portfolios using valuation methods and long-term investment approaches.",
+    },
+    {
+      title: "Macroeconomic & Equity Research",
+      description:
+        "The Research Department analyses macro reports, industry studies, and equity research, using tools like Bloomberg to understand what drives global markets and individual companies.",
+    },
+    {
+      title: "Operations & Member Experience",
+      description:
+        "The Operations Department oversees communication, recruitment, internal organization, and partnerships, ensuring a structured club and a high-quality experience for every member.",
+    },
   ];
 
   return (
     <section className="py-24 bg-background" id="about">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -41,11 +67,14 @@ const About = () => {
             About <span className="text-accent">ITIC</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Established in 2017, ITIC is ISCTE Business School's premier student organization dedicated to finance and investment education. We provide a platform for ambitious students to develop practical trading skills, network with industry professionals, and explore career opportunities in finance.
+            Established in 2017, ITIC is ISCTE Business School&apos;s premier
+            student organization dedicated to finance and investment education.
+            We provide a platform for ambitious students to develop practical
+            trading skills, network with industry professionals, and explore
+            career opportunities in finance.
           </p>
         </motion.div>
 
-        {/* Values Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {values.map((value, index) => (
             <motion.div
@@ -77,7 +106,6 @@ const About = () => {
           ))}
         </div>
 
-        {/* What We Do Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -90,12 +118,7 @@ const About = () => {
               What We Do
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
-              {[
-                { title: "", description: "" },
-                { title: "", description: "" },
-                { title: "", description: "" },
-                { title: "", description: "" },
-              ].map((item, index) => (
+              {whatWeDo.map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -105,7 +128,9 @@ const About = () => {
                   whileHover={{ scale: 1.02 }}
                   className="space-y-3 cursor-pointer"
                 >
-                  <h4 className="text-xl font-semibold text-accent">{item.title}</h4>
+                  <h4 className="text-xl font-semibold text-accent">
+                    {item.title}
+                  </h4>
                   <p className="text-white/90">{item.description}</p>
                 </motion.div>
               ))}

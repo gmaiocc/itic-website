@@ -15,7 +15,7 @@ const Footer = () => {
                 <div className="font-heading font-bold text-xl">ITIC</div>
                 <div className="text-sm text-white/70">ISCTE Trading Club</div>
               </div>
-            </div>
+            </div>      
             <p className="text-white/80 text-sm leading-relaxed">
               Empowering the next generation of finance professionals through education, networking, and practical experience.
             </p>
@@ -25,8 +25,20 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-heading font-semibold text-lg">Links</h3>
             <nav className="flex flex-col space-y-2">
-              <a href="#about" className="text-white/80 hover:text-accent transition-smooth text-sm">
+              <a href="/about" className="text-white/80 hover:text-accent transition-smooth text-sm">
                 About Us
+              </a>
+              <a href="/departments/trading" className="text-white/80 hover:text-accent transition-smooth text-sm">
+                Trading
+              </a>
+              <a href="/departments/asset-management" className="text-white/80 hover:text-accent transition-smooth text-sm">
+                Asset Management
+              </a>
+              <a href="/departments/research" className="text-white/80 hover:text-accent transition-smooth text-sm">
+                Research 
+              </a>
+              <a href="/departments/human-resources" className="text-white/80 hover:text-accent transition-smooth text-sm">
+                Operations
               </a>
             </nav>
           </div>
@@ -68,7 +80,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-white/20 pt-8 text-center text-sm text-white/60">
           <p>&copy; {new Date().getFullYear()} ITIC - ISCTE Trading & Investment Club. All rights reserved.</p>
         </div>
