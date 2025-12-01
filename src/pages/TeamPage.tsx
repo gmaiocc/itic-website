@@ -15,7 +15,6 @@ const TeamPage = () => {
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
-          {/* Hero Section */}
           <section className="py-20 gradient-hero">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">

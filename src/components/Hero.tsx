@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
           src={heroImage} 
@@ -15,10 +14,8 @@ const Hero = () => {
         <div className="absolute inset-0 gradient-hero opacity-90" />
       </div>
 
-      {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div className="max-w-5xl mx-auto space-y-8">
-          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -29,7 +26,6 @@ const Hero = () => {
             <span className="text-sm font-medium text-primary-foreground">Est. 2017 | Lisbon, Portugal</span>
           </motion.div>
 
-          {/* Main Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -40,17 +36,15 @@ const Hero = () => {
             <span className="text-primary-foreground">Investment Club</span>
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto font-light"
           >
-            Empowering ambitious ISCTE students to master the world of finance, trading and investments
+            Empowering ambitious ISCTE students to master the world of finance, trading and investments.
           </motion.p>
 
-          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +69,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
         <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
           <div className="w-1.5 h-2 bg-white/50 rounded-full" />

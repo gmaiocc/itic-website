@@ -11,7 +11,6 @@ const AboutPage = () => {
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
-          {/* Hero Section */}
           <section className="py-20 gradient-hero">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
@@ -35,7 +34,6 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* Leadership Section - President & Vice President */}
           <section className="py-20 bg-background">
             <div className="container mx-auto px-4">
               <motion.div
@@ -120,7 +118,6 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* About the Club Section */}
           <section className="pt-16 pb-20 bg-muted/30">
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
@@ -154,7 +151,6 @@ const AboutPage = () => {
                     platform for skill development and discovery.
                   </p>
 
-                  {/* Photo in the middle of the text (swap the src when you have a real photo) */}
                   <div className="flex justify-center my-4">
                     <div className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-card border border-border/60 bg-background">
                       <img

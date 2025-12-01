@@ -5,7 +5,6 @@ const Footer = () => {
     <footer className="gradient-hero text-white py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
-          {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-gold flex items-center justify-center font-heading font-bold text-navy-deep text-xl">
@@ -17,7 +16,8 @@ const Footer = () => {
               </div>
             </div>      
             <p className="text-white/80 text-sm leading-relaxed">
-              Empowering the next generation of finance professionals through education, networking, and practical experience.
+              Empowering ambitious ISCTE students to master the world of finance, trading and investments. &nbsp; 
+              #FinancialKnowledge
             </p>
           </div>
 

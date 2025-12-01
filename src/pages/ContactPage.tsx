@@ -48,7 +48,6 @@ const ContactPage = () => {
       <div className="min-h-screen">
         <Navbar />
         <main className="pt-20">
-          {/* Hero Section */}
           <section className="py-20 gradient-hero">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
@@ -76,7 +75,6 @@ const ContactPage = () => {
           <section className="py-20 bg-background">
             <div className="container mx-auto px-4">
               <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                {/* Contact Info */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
