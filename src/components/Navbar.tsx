@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, ChevronDown, LogIn, LogOut, Settings } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,6 +14,17 @@ import {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileDepartmentsOpen, setIsMobileDepartmentsOpen] = useState(false);
+  const { user, userProfile, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   const departments = [
     { href: "/departments/trading", label: "Trading" },
@@ -42,7 +54,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-foreground hover:text-primary font-medium transition-smooth">Home</Link>
             <Link to="/about" className="text-foreground hover:text-primary font-medium transition-smooth">About</Link>
-            
+
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -71,6 +83,31 @@ const Navbar = () => {
             <Link to="/gallery" className="text-foreground hover:text-primary font-medium transition-smooth">Gallery</Link>
             <Link to="/reports" className="text-foreground hover:text-primary font-medium transition-smooth">Reports</Link>
             <Link to="/contact" className="text-foreground hover:text-primary font-medium transition-smooth">Contact</Link>
+
+            {/* Auth Buttons */}
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">{userProfile?.email || user.email}</span>
+                {userProfile?.role === 'admin' && (
+                  <Link to="/admin" className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-smooth">
+                    <Settings className="w-4 h-4" />
+                    <span className="font-medium">Admin Panel</span>
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-muted transition-smooth"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            ) : (
+              <Link to="/auth/login" className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-smooth">
+                <LogIn className="w-4 h-4" />
+                <span className="font-medium">Login</span>
+              </Link>
+            )}
           </div>
 
           <button className="md:hidden p-2 rounded-lg hover:bg-muted transition-smooth" onClick={() => setIsOpen(!isOpen)}>
@@ -84,7 +121,7 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-6 space-y-4">
             <Link to="/" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Home</Link>
             <Link to="/about" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>About</Link>
-            
+
             <div>
               <button onClick={() => setIsMobileDepartmentsOpen(!isMobileDepartmentsOpen)} className="flex items-center justify-between w-full py-2 text-foreground hover:text-primary font-medium transition-smooth">
                 Departments
@@ -104,6 +141,44 @@ const Navbar = () => {
             <Link to="/gallery" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Gallery</Link>
             <Link to="/reports" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Reports</Link>
             <Link to="/contact" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Contact</Link>
+
+            {/* Auth Buttons Mobile */}
+            <div className="pt-4 mt-4 border-t border-border">
+              {user ? (
+                <div className="space-y-3">
+                  <div className="text-sm text-muted-foreground py-2">{userProfile?.email || user.email}</div>
+                  {userProfile?.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-2 py-2 text-foreground hover:text-primary font-medium transition-smooth"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Settings className="w-4 h-4" />
+                      Admin Panel
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center gap-2 w-full py-2 text-foreground hover:text-primary font-medium transition-smooth"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/auth/login"
+                  className="flex items-center gap-2 py-2 text-foreground hover:text-primary font-medium transition-smooth"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -1,33 +1,20 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, TrendingUp, FileText, BarChart3 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useReports } from "@/hooks/queries/useReports";
+import { ReportCard } from "@/components/ReportCard";
+import type { Report } from "@/types/report";
+import { useState } from "react";
 
 const ReportsPage = () => {
-  const reports = [
-    {
-      title: "Market Analysis Q3 2025",
-      description: "...",
-      date: "October 2025",
-      category: "Research",
-    },
-    {
-      title: "Crypto Report",
-      description: "...",
-      date: "November 2025",
-      category: "marketanalysis",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState<'all' | Report['category']>('all');
+
+  // Fetch reports based on active tab
+  const { data, isLoading, error } = useReports(
+    activeTab !== 'all' ? { category: activeTab } : undefined
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -43,6 +30,13 @@ const ReportsPage = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+
+  const handleDownload = (report: Report) => {
+    // TODO: Implement actual download logic
+    console.log('Download report:', report);
+  };
+
+  const reports = data?.reports || [];
 
   return (
     <PageTransition>
@@ -65,7 +59,7 @@ const ReportsPage = () => {
               </p>
             </motion.div>
 
-            <Tabs defaultValue="all" className="w-full">
+            <Tabs defaultValue="all" className="w-full" onValueChange={(v) => setActiveTab(v as any)}>
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 mb-12">
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="sundayscan">Sunday Scan</TabsTrigger>
@@ -73,174 +67,39 @@ const ReportsPage = () => {
                 <TabsTrigger value="marketanalysis">Market Analysis</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="all">
-                <motion.div
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid md:grid-cols-2 gap-6"
-                >
-                  {reports.map((report, index) => (
-                    <motion.div key={index} variants={itemVariants}>
-                      <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card/50 backdrop-blur">
-                        <CardHeader>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                              {report.category === "marketanalysis" && (
-                                <TrendingUp className="w-6 h-6 text-primary" />
-                              )}
-                              {report.category === "research" && (
-                                <FileText className="w-6 h-6 text-primary" />
-                              )}
-                              {report.category === "sundayscan" && (
-                                <BarChart3 className="w-6 h-6 text-primary" />
-                              )}
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                              {report.date}
-                            </span>
-                          </div>
-                          <CardTitle className="group-hover:text-primary transition-colors">
-                            {report.title}
-                          </CardTitle>
-                          <CardDescription>{report.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Button
-                            variant="outline"
-                            className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Ver mais
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </TabsContent>
+              <TabsContent value={activeTab}>
+                {isLoading && (
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">Loading reports...</p>
+                  </div>
+                )}
 
-              <TabsContent value="market">
-                <motion.div
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid md:grid-cols-2 gap-6"
-                >
-                  {reports
-                    .filter((r) => r.category === "marketanalysis")
-                    .map((report, index) => (
-                      <motion.div key={index} variants={itemVariants}>
-                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                          <CardHeader>
-                            <div className="flex items-start justify-between mb-2">
-                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                                <TrendingUp className="w-6 h-6 text-primary" />
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                {report.date}
-                              </span>
-                            </div>
-                            <CardTitle className="group-hover:text-primary transition-colors">
-                              {report.title}
-                            </CardTitle>
-                            <CardDescription>{report.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <Button
-                              variant="outline"
-                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                            >
-                              <Download className="w-4 h-4 mr-2" />
-                              Download Report
-                            </Button>
-                          </CardContent>
-                        </Card>
+                {error && (
+                  <div className="text-center py-12">
+                    <p className="text-destructive">Failed to load reports. Please try again later.</p>
+                  </div>
+                )}
+
+                {!isLoading && !error && (
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid md:grid-cols-2 gap-6"
+                  >
+                    {reports.map((report, index) => (
+                      <motion.div key={report.id || index} variants={itemVariants}>
+                        <ReportCard report={report} onDownload={handleDownload} />
                       </motion.div>
                     ))}
-                </motion.div>
-              </TabsContent>
 
-              <TabsContent value="research">
-                <motion.div
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid md:grid-cols-2 gap-6"
-                >
-                  {reports
-                    .filter((r) => r.category === "Research")
-                    .map((report, index) => (
-                      <motion.div key={index} variants={itemVariants}>
-                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                          <CardHeader>
-                            <div className="flex items-start justify-between mb-2">
-                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                                <FileText className="w-6 h-6 text-primary" />
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                {report.date}
-                              </span>
-                            </div>
-                            <CardTitle className="group-hover:text-primary transition-colors">
-                              {report.title}
-                            </CardTitle>
-                            <CardDescription>{report.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <Button
-                              variant="outline"
-                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                            >
-                              <Download className="w-4 h-4 mr-2" />
-                              ver mais
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                </motion.div>
-              </TabsContent>
-
-              <TabsContent value="marketanalysis">
-                <motion.div
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="grid md:grid-cols-2 gap-6"
-                >
-                  {reports
-                    .filter((r) => r.category === "marketanalysis")
-                    .map((report, index) => (
-                      <motion.div key={index} variants={itemVariants}>
-                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                          <CardHeader>
-                            <div className="flex items-start justify-between mb-2">
-                              <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                                <BarChart3 className="w-6 h-6 text-primary" />
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                {report.date}
-                              </span>
-                            </div>
-                            <CardTitle className="group-hover:text-primary transition-colors">
-                              {report.title}
-                            </CardTitle>
-                            <CardDescription>{report.description}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <Button
-                              variant="outline"
-                              className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                            >
-                              <Download className="w-4 h-4 mr-2" />
-                              ver mais
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                </motion.div>
+                    {reports.length === 0 && (
+                      <div className="col-span-2 text-center py-12">
+                        <p className="text-muted-foreground">No reports found in this category.</p>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
               </TabsContent>
             </Tabs>
           </div>
