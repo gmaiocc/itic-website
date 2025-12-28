@@ -19,3 +19,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+
+# Environment variables
+.env
+
+# Agent internal files
+.agent/

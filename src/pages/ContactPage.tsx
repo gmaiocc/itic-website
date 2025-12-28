@@ -10,10 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useContactMutation } from "@/hooks/queries/useContactMutation";
 
 const ContactPage = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const contactMutation = useContactMutation();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,17 +25,23 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      await contactMutation.mutateAsync(formData);
 
-    toast({
-      title: "Message sent!",
-      description: "We will get back to you shortly.",
-    });
+      toast({
+        title: "Message sent!",
+        description: "We will get back to you shortly.",
+      });
 
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -87,7 +95,7 @@ const ContactPage = () => {
                       Get in Touch
                     </h2>
                     <p className="text-muted-foreground">
-                      Have a question or want to learn more about ITIC?  
+                      Have a question or want to learn more about ITIC?
                       Feel free to reach out to us through any of the channels below.
                     </p>
                   </div>
@@ -225,9 +233,9 @@ const ContactPage = () => {
                         <Button
                           type="submit"
                           className="w-full"
-                          disabled={isSubmitting}
+                          disabled={contactMutation.isPending}
                         >
-                          {isSubmitting ? "Sending..." : "Send Message"}
+                          {contactMutation.isPending ? "Sending..." : "Send Message"}
                         </Button>
                       </form>
                     </CardContent>
