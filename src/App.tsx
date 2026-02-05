@@ -13,6 +13,10 @@ import TeamPage from "./pages/TeamPage";
 import ReportsPage from "./pages/ReportsPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import LoginPage from "@/pages/LoginPage";
+import DashboardPage from "@/pages/DashboardPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -22,21 +26,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/departments/trading" element={<TradingPage />} />
-          <Route path="/departments/asset-management" element={<AssetManagementPage />} />
-          <Route path="/departments/research" element={<ResearchPage />} />
-          <Route path="/departments/human-resources" element={<HumanResourcesPage />} />
-          <Route path="/gallery" element={<TeamPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/departments/trading" element={<TradingPage />} />
+            <Route path="/departments/asset-management" element={<AssetManagementPage />} />
+            <Route path="/departments/research" element={<ResearchPage />} />
+            <Route path="/departments/human-resources" element={<HumanResourcesPage />} />
+            <Route path="/gallery" element={<TeamPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+    </TooltipProvider >
+  </QueryClientProvider >
 );
 
 export default App;

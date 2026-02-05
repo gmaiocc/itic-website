@@ -9,10 +9,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useAuth } from "@/context/AuthContext";
+import { LogIn, LogOut, User } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileDepartmentsOpen, setIsMobileDepartmentsOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const departments = [
     { href: "/departments/trading", label: "Trading" },
@@ -42,7 +45,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-foreground hover:text-primary font-medium transition-smooth">Home</Link>
             <Link to="/about" className="text-foreground hover:text-primary font-medium transition-smooth">About</Link>
-            
+
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -84,7 +87,7 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-6 space-y-4">
             <Link to="/" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>Home</Link>
             <Link to="/about" className="block py-2 text-foreground hover:text-primary font-medium transition-smooth" onClick={() => setIsOpen(false)}>About</Link>
-            
+
             <div>
               <button onClick={() => setIsMobileDepartmentsOpen(!isMobileDepartmentsOpen)} className="flex items-center justify-between w-full py-2 text-foreground hover:text-primary font-medium transition-smooth">
                 Departments
