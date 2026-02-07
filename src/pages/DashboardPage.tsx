@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard, FolderOpen, Users, Settings, LogOut,
   ShieldAlert, FileText, UploadCloud, Download, Menu,
-  Trash2, Edit, Save, Camera, Link as LinkIcon, Briefcase, Plus, UserPlus, Search, Filter, FileSpreadsheet, File, Eye, EyeOff, X, Check, MoreVertical
+  Trash2, Edit, Save, Camera, Link as LinkIcon, Briefcase, Plus, UserPlus, Search, Filter, FileSpreadsheet, File, Eye, EyeOff, X, Check, MoreVertical, ArrowRight, Book, Presentation, FileCode
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/AuthContext";
@@ -27,6 +27,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { format } from "date-fns";
 
 // --- TIPOS ---
 type Profile = {
@@ -69,71 +70,155 @@ type PublicReport = {
 const isAdminPosition = (position: string | undefined) => ['President', 'Vice-President', 'Head'].includes(position || '');
 const isSuperAdminPosition = (position: string | undefined) => ['President', 'Vice-President'].includes(position || '');
 
+// Ícones baseados no tipo de ficheiro
 const getFileIcon = (type: string) => {
-  if (type.includes('pdf')) return <FileText className="w-6 h-6 text-red-500" />;
-  if (type.includes('xls') || type.includes('sheet')) return <FileSpreadsheet className="w-6 h-6 text-green-500" />;
-  return <File className="w-6 h-6 text-gray-400" />;
+  if (type.includes('pdf')) return <FileText className="w-5 h-5 text-red-500" />;
+  if (type.includes('xls') || type.includes('csv') || type.includes('sheet')) return <FileSpreadsheet className="w-5 h-5 text-green-500" />;
+  if (type.includes('ppt') || type.includes('slide')) return <Presentation className="w-5 h-5 text-orange-500" />;
+  if (type.includes('py') || type.includes('js') || type.includes('html')) return <FileCode className="w-5 h-5 text-blue-500" />;
+  if (type.includes('epub') || type.includes('mobi')) return <Book className="w-5 h-5 text-purple-500" />;
+  return <File className="w-5 h-5 text-gray-400" />;
 };
 
-// --- 1. OVERVIEW ---
-const DashboardOverview = ({ user, profile }: { user: any, profile: Profile | null }) => (
-  <div className="space-y-8">
-    {/* Welcome Banner */}
-    <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-8 md:p-10 shadow-2xl">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
-        <Avatar className="w-20 h-20 border-4 border-white/10 shadow-lg">
-          <AvatarImage src={profile?.avatar_url} className="object-cover" />
-          <AvatarFallback className="text-2xl bg-red-600 text-white font-bold">{profile?.full_name?.charAt(0) || user?.email?.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div className="space-y-1">
-          <h2 className="text-3xl font-heading font-bold">Hello, {profile?.full_name?.split(' ')[0] || "Member"}</h2>
-          <p className="text-gray-400 text-lg">Welcome to your ITIC workspace.</p>
-          <div className="flex gap-2 mt-2">
-            <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">{profile?.department || "General Member"}</Badge>
-            <Badge variant="outline" className="text-gray-300 border-gray-600">{profile?.position || "Member"}</Badge>
+// --- 1. OVERVIEW (ATUALIZADO) ---
+const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile: Profile | null, setActiveTab: (tab: string) => void }) => {
+  const navigate = useNavigate();
+  const [recentFiles, setRecentFiles] = useState<RepoFile[]>([]);
+
+  useEffect(() => {
+    async function fetchRecent() {
+      const { data } = await supabase.from('repository_files').select('*').order('created_at', { ascending: false }).limit(4);
+      if (data) setRecentFiles(data);
+    }
+    fetchRecent();
+  }, []);
+
+  return (
+    <div className="space-y-8">
+      {/* Welcome Banner */}
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-8 md:p-10 shadow-xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
+          <Avatar className="w-20 h-20 border-4 border-white/10 shadow-lg">
+            <AvatarImage src={profile?.avatar_url} className="object-cover" />
+            <AvatarFallback className="text-2xl bg-red-600 text-white font-bold">{profile?.full_name?.charAt(0) || user?.email?.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h2 className="text-3xl font-heading font-bold">Hello, {profile?.full_name?.split(' ')[0] || "Member"}</h2>
+            <p className="text-gray-400 text-lg">Welcome to your ITIC workspace.</p>
+            <div className="flex gap-2 mt-2">
+              <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">{profile?.department || "General Member"}</Badge>
+              <Badge variant="outline" className="text-gray-300 border-gray-600">{profile?.position || "Member"}</Badge>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Quick Stats Grid */}
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="hover:shadow-lg transition-all border-l-4 border-l-red-500 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Access Level</CardTitle>
+            <ShieldAlert className="h-4 w-4 text-red-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">{profile?.role === 'admin' ? 'Administrator' : 'Standard Member'}</div>
+            <p className="text-xs text-muted-foreground mt-1">View permissions</p>
+          </CardContent>
+        </Card>
+        
+        <Card className="hover:shadow-lg transition-all border-l-4 border-l-blue-500 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Department</CardTitle>
+            <Briefcase className="h-4 w-4 text-blue-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">{profile?.department || "Unassigned"}</div>
+            <p className="text-xs text-muted-foreground mt-1">Active workspace</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-all border-l-4 border-l-green-500 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Status</CardTitle>
+            <Users className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold">Active</div>
+            <p className="text-xs text-muted-foreground mt-1">Account in good standing</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid lg:grid-cols-2 gap-8">
+        
+        {/* LEFT: Quick Actions */}
+        <div className="space-y-4">
+           <h3 className="text-lg font-bold text-gray-900 ml-1">Quick Actions</h3>
+           <Card 
+             className="bg-red-50 border-red-100 hover:bg-red-100/80 hover:border-red-200 transition-all cursor-pointer group shadow-sm hover:shadow-md"
+             onClick={() => setActiveTab('repository')}
+           >
+             <CardContent className="p-6 flex items-center justify-between">
+               <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-red-600 group-hover:scale-110 transition-transform"><FolderOpen className="w-6 h-6"/></div>
+                 <div><h4 className="font-bold text-gray-900 text-lg">Internal Files</h4><p className="text-sm text-gray-500">Access templates & data</p></div>
+               </div>
+               <ArrowRight className="w-5 h-5 text-red-400 group-hover:translate-x-1 transition-transform" />
+             </CardContent>
+           </Card>
+
+           <Card 
+             className="bg-blue-50 border-blue-100 hover:bg-blue-100/80 hover:border-blue-200 transition-all cursor-pointer group shadow-sm hover:shadow-md"
+             onClick={() => navigate('/reports')}
+           >
+             <CardContent className="p-6 flex items-center justify-between">
+               <div className="flex items-center gap-4">
+                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-blue-600 group-hover:scale-110 transition-transform"><FileText className="w-6 h-6"/></div>
+                 <div><h4 className="font-bold text-gray-900 text-lg">Market Reports</h4><p className="text-sm text-gray-500">Read latest analysis</p></div>
+               </div>
+               <ArrowRight className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform" />
+             </CardContent>
+           </Card>
+        </div>
+
+        {/* RIGHT: Recent Uploads */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 ml-1">Recent Uploads</h3>
+          <Card className="border-gray-200 shadow-sm h-full">
+            <CardContent className="p-0">
+              {recentFiles.length > 0 ? (
+                <div className="divide-y divide-gray-100">
+                  {recentFiles.map((file) => (
+                    <div key={file.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-gray-100 rounded-lg">{getFileIcon(file.file_type)}</div>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900 line-clamp-1">{file.title}</p>
+                          <p className="text-xs text-gray-500 flex items-center gap-1">
+                            {file.department} • {format(new Date(file.created_at), 'MMM d')}
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => setActiveTab('repository')}>View</Button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-8 text-center text-gray-400 text-sm">No recent files found.</div>
+              )}
+            </CardContent>
+            <CardFooter className="bg-gray-50/50 p-2 flex justify-center border-t border-gray-100">
+              <Button variant="link" size="sm" className="text-xs text-muted-foreground h-auto" onClick={() => setActiveTab('repository')}>Go to Repository</Button>
+            </CardFooter>
+          </Card>
+        </div>
+
+      </div>
     </div>
-
-    {/* Quick Stats Grid */}
-    <div className="grid gap-6 md:grid-cols-3">
-      <Card className="hover:shadow-lg transition-all border-l-4 border-l-red-500">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Access Level</CardTitle>
-          <ShieldAlert className="h-4 w-4 text-red-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{profile?.role === 'admin' ? 'Administrator' : 'Standard Member'}</div>
-          <p className="text-xs text-muted-foreground mt-1">View permissions</p>
-        </CardContent>
-      </Card>
-
-      <Card className="hover:shadow-lg transition-all border-l-4 border-l-blue-500">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Department</CardTitle>
-          <Briefcase className="h-4 w-4 text-blue-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{profile?.department || "Unassigned"}</div>
-          <p className="text-xs text-muted-foreground mt-1">Active workspace</p>
-        </CardContent>
-      </Card>
-
-      <Card className="hover:shadow-lg transition-all border-l-4 border-l-green-500">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Status</CardTitle>
-          <Users className="h-4 w-4 text-green-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">Active</div>
-          <p className="text-xs text-muted-foreground mt-1">Account in good standing</p>
-        </CardContent>
-      </Card>
-    </div>
-  </div>
-);
+  );
+};
 
 // --- 2. GESTÃO DE DEPARTAMENTO ---
 const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
@@ -176,6 +261,12 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
       (item.email?.toLowerCase() || "").includes(lowerQuery)
     );
   };
+
+  const activeEmails = new Set(members.map(m => m.email));
+  const trulyPendingWhitelist = whitelisted.filter(w => !activeEmails.has(w.email));
+  
+  const filteredMembers = filterList(members);
+  const filteredWhitelist = filterList(trulyPendingWhitelist);
 
   async function handlePreRegister() {
     if (!newMemberData.email || !newMemberData.full_name || !newMemberData.position) {
@@ -287,13 +378,13 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
         </div>
       </div>
 
-      {whitelisted.length > 0 && (
+      {filteredWhitelist.length > 0 && (
         <Card className="border-yellow-500/30 bg-yellow-50/50">
-          <CardHeader className="py-3"><CardTitle className="text-sm font-bold text-yellow-700 flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" /> Pending Registration ({filterList(whitelisted).length})</CardTitle></CardHeader>
+          <CardHeader className="py-3"><CardTitle className="text-sm font-bold text-yellow-700 flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" /> Pending Registration ({filteredWhitelist.length})</CardTitle></CardHeader>
           <CardContent className="p-0">
             <Table>
               <TableBody>
-                {filterList(whitelisted).map((w) => (
+                {filteredWhitelist.map((w) => (
                   <TableRow key={w.email} className="hover:bg-yellow-100/50">
                     <TableCell className="font-medium">{w.email}</TableCell>
                     <TableCell>{w.full_name}</TableCell>
@@ -318,7 +409,7 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
               <TableRow><TableHead>Member</TableHead><TableHead className="hidden md:table-cell">Academic Info</TableHead>{isSuperAdmin && <TableHead>Dept.</TableHead>}<TableHead>Role</TableHead><TableHead className="text-right">Actions</TableHead></TableRow>
             </TableHeader>
             <TableBody>
-              {filterList(members).map((member) => (
+              {filteredMembers.map((member) => (
                 <TableRow key={member.id}>
                   <TableCell className="flex items-center gap-3">
                     <Avatar className="w-9 h-9 border"><AvatarImage src={member.avatar_url} /><AvatarFallback>{member.email.charAt(0)}</AvatarFallback></Avatar>
@@ -370,7 +461,7 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   );
 };
 
-// --- 3. REPOSITÓRIO AVANÇADO ---
+// --- 3. REPOSITÓRIO AVANÇADO (ATUALIZADO COM E-BOOKS) ---
 const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | null, isAdmin: boolean }) => {
   const [files, setFiles] = useState<RepoFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -381,7 +472,7 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [editMode, setEditMode] = useState<RepoFile | null>(null);
-  const [formData, setFormData] = useState({ title: "", description: "", category: "Geral", department: "Global", file: null as File | null });
+  const [formData, setFormData] = useState({ title: "", description: "", category: "General", department: "Global", file: null as File | null });
 
   useEffect(() => { fetchFiles(); if (userProfile?.department) setFilterDept(userProfile.department); }, [userProfile]);
 
@@ -440,8 +531,40 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
         <CardHeader className="pb-4"><CardTitle className="text-base flex items-center gap-2 font-bold"><Filter className="w-4 h-4" /> Filters</CardTitle></CardHeader>
         <CardContent className="space-y-5">
           <div className="space-y-2"><Label className="text-xs font-bold uppercase text-gray-500">Search</Label><div className="relative"><Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" /><Input placeholder="Filename..." className="pl-9" value={search} onChange={e => setSearch(e.target.value)} /></div></div>
-          <div className="space-y-2"><Label className="text-xs font-bold uppercase text-gray-500">Department</Label><Select value={filterDept} onValueChange={setFilterDept}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="All">All</SelectItem><SelectItem value="Global">Global</SelectItem><SelectItem value="Trading">Trading</SelectItem><SelectItem value="Asset Management">Asset Management</SelectItem><SelectItem value="Research">Research</SelectItem></SelectContent></Select></div>
-          <div className="space-y-2"><Label className="text-xs font-bold uppercase text-gray-500">Type</Label><Select value={filterCategory} onValueChange={setFilterCategory}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="All">All</SelectItem><SelectItem value="Geral">General</SelectItem><SelectItem value="Template">Template</SelectItem><SelectItem value="Report">Report</SelectItem><SelectItem value="Meeting Notes">Minutes</SelectItem><SelectItem value="Data">Data</SelectItem></SelectContent></Select></div>
+          
+          <div className="space-y-2">
+            <Label className="text-xs font-bold uppercase text-gray-500">Department</Label>
+            <Select value={filterDept} onValueChange={setFilterDept}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All</SelectItem>
+                <SelectItem value="Global">Global</SelectItem>
+                <SelectItem value="Trading">Trading</SelectItem>
+                <SelectItem value="Asset Management">Asset Management</SelectItem>
+                <SelectItem value="Research">Research</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-xs font-bold uppercase text-gray-500">Category</Label>
+            <Select value={filterCategory} onValueChange={setFilterCategory}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All</SelectItem>
+                <SelectItem value="General">General</SelectItem>
+                <SelectItem value="Ebook">E-books</SelectItem>
+                <SelectItem value="Workshop">Workshops & Slides</SelectItem>
+                <SelectItem value="Template">Templates</SelectItem>
+                <SelectItem value="Report">Reports</SelectItem>
+                <SelectItem value="Meeting Notes">Meeting Minutes</SelectItem>
+                <SelectItem value="Data">Data & Models</SelectItem>
+                <SelectItem value="Cheatsheet">Cheatsheets</SelectItem>
+                <SelectItem value="Software">Software</SelectItem>
+                <SelectItem value="Legal">Legal</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardContent>
       </Card>
 
@@ -451,16 +574,41 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
           <div><h2 className="text-2xl font-bold tracking-tight">Internal Repository</h2><p className="text-muted-foreground">{filteredFiles.length} files available.</p></div>
           {isAdmin && (
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-              <DialogTrigger asChild><Button onClick={() => { setEditMode(null); setFormData({ title: "", description: "", category: "Geral", department: "Global", file: null }); }} className="bg-black text-white hover:bg-gray-800"><Plus className="w-4 h-4 mr-2" /> Upload File</Button></DialogTrigger>
+              <DialogTrigger asChild><Button onClick={() => { setEditMode(null); setFormData({ title: "", description: "", category: "General", department: "Global", file: null }); }} className="bg-black text-white hover:bg-gray-800"><Plus className="w-4 h-4 mr-2" /> Upload File</Button></DialogTrigger>
               <DialogContent>
                 <DialogHeader><DialogTitle>{editMode ? "Edit File" : "Upload File"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 py-4">
                   <Input value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Document Title" required />
                   <Textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} placeholder="Short Description" />
+                  
                   <div className="grid grid-cols-2 gap-4">
-                    <Select value={formData.category} onValueChange={v => setFormData({ ...formData, category: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Geral">General</SelectItem><SelectItem value="Template">Template</SelectItem><SelectItem value="Report">Report</SelectItem><SelectItem value="Meeting Notes">Minutes</SelectItem><SelectItem value="Data">Data</SelectItem></SelectContent></Select>
-                    <Select value={formData.department} onValueChange={v => setFormData({ ...formData, department: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Global">Global</SelectItem><SelectItem value="Trading">Trading</SelectItem><SelectItem value="Asset Management">Asset Management</SelectItem><SelectItem value="Research">Research</SelectItem></SelectContent></Select>
+                    <Select value={formData.category} onValueChange={v => setFormData({ ...formData, category: v })}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="General">General</SelectItem>
+                        <SelectItem value="Ebook">E-book</SelectItem>
+                        <SelectItem value="Workshop">Workshop / Slides</SelectItem>
+                        <SelectItem value="Template">Template</SelectItem>
+                        <SelectItem value="Report">Report</SelectItem>
+                        <SelectItem value="Meeting Notes">Meeting Notes</SelectItem>
+                        <SelectItem value="Data">Data</SelectItem>
+                        <SelectItem value="Cheatsheet">Cheatsheet</SelectItem>
+                        <SelectItem value="Software">Software</SelectItem>
+                        <SelectItem value="Legal">Legal</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select value={formData.department} onValueChange={v => setFormData({ ...formData, department: v })}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Global">Global</SelectItem>
+                        <SelectItem value="Trading">Trading</SelectItem>
+                        <SelectItem value="Asset Management">Asset Management</SelectItem>
+                        <SelectItem value="Research">Research</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
+                  
                   <Input type="file" onChange={e => setFormData({ ...formData, file: e.target.files?.[0] || null })} required={!editMode} />
                   <Button type="submit" disabled={isUploading} className="w-full bg-red-600 hover:bg-red-700 text-white">{isUploading ? "Uploading..." : "Save"}</Button>
                 </form>
@@ -524,30 +672,60 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
 
   const handlePublicPublish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fileInput = (e.target as any).file.files[0];
-    if (!fileInput && !editMode) return alert("File required");
+    const form = e.target as any;
+    const pdfFile = form.file.files[0];
+    const coverFile = form.cover.files[0];
+
+    if (!pdfFile && !editMode) return alert("PDF File required");
 
     setUploading(true);
     try {
       let publicUrl = editMode ? editMode.file_url : "";
-      if (fileInput) {
-        const fileName = `reports/${Date.now()}_${fileInput.name}`;
-        await supabase.storage.from('public-reports').upload(fileName, fileInput);
+      let coverUrl = editMode ? (editMode as any).cover_url : null;
+
+      if (pdfFile) {
+        const fileName = `reports/${Date.now()}_${pdfFile.name}`;
+        await supabase.storage.from('public-reports').upload(fileName, pdfFile);
         const { data } = supabase.storage.from('public-reports').getPublicUrl(fileName);
         publicUrl = data.publicUrl;
       }
+
+      if (coverFile) {
+        const coverName = `covers/${Date.now()}_${coverFile.name}`;
+        await supabase.storage.from('public-reports').upload(coverName, coverFile);
+        const { data } = supabase.storage.from('public-reports').getPublicUrl(coverName);
+        coverUrl = data.publicUrl;
+      }
+
       const categoryToSave = isSuperAdmin ? reportDept : (myProfile?.department || "Research");
 
+      const payload = {
+        title: reportTitle,
+        description: reportDesc,
+        category: categoryToSave,
+        cover_url: coverUrl,
+        ...(pdfFile && { file_url: publicUrl })
+      };
+
       if (editMode) {
-        await supabase.from('public_reports').update({ title: reportTitle, description: reportDesc, category: categoryToSave, ...(fileInput && { file_url: publicUrl }) }).eq('id', editMode.id);
+        await supabase.from('public_reports').update(payload).eq('id', editMode.id);
         toast({ title: "Updated!" });
       } else {
-        await supabase.from('public_reports').insert({ title: reportTitle, description: reportDesc, category: categoryToSave, file_url: publicUrl });
+        await supabase.from('public_reports').insert({ ...payload, file_url: publicUrl });
         toast({ title: "Published!" });
       }
-      setReportTitle(""); setReportDesc(""); setEditMode(null); (e.target as any).reset(); fetchPublicReports();
-    } catch (error: any) { toast({ title: "Error", variant: "destructive" }); }
-    finally { setUploading(false); }
+
+      setReportTitle("");
+      setReportDesc("");
+      setEditMode(null);
+      form.reset();
+      fetchPublicReports();
+
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
   };
 
   async function handleDeleteReport(id: string) {
@@ -573,7 +751,8 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
               <div className="space-y-2"><Label>Title</Label><Input value={reportTitle} onChange={e => setReportTitle(e.target.value)} required /></div>
               <div className="space-y-2"><Label>Department</Label><Select value={reportDept} onValueChange={setReportDept} disabled={!isSuperAdmin}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Trading">Trading</SelectItem><SelectItem value="Asset Management">Asset Management</SelectItem><SelectItem value="Research">Research</SelectItem><SelectItem value="Operations">Operations</SelectItem></SelectContent></Select></div>
               <div className="space-y-2"><Label>Description</Label><Textarea value={reportDesc} onChange={e => setReportDesc(e.target.value)} rows={3} /></div>
-              <div className="space-y-2"><Label>{editMode ? "Replace PDF (Optional)" : "Upload PDF"}</Label><Input type="file" name="file" accept="application/pdf" required={!editMode} /></div>
+              <div className="space-y-2"><Label>{editMode ? "Replace PDF (Optional)" : "Report PDF"}</Label><Input type="file" name="file" accept="application/pdf" required={!editMode} /></div>
+              <div className="space-y-2"><Label>Cover Image (Optional)</Label><Input type="file" name="cover" accept="image/*" /></div>
               <div className="flex gap-2 pt-2">{editMode && <Button type="button" variant="outline" onClick={() => { setEditMode(null); setReportTitle(""); setReportDesc(""); }} className="flex-1">Cancel</Button>}<Button type="submit" disabled={uploading} className="flex-1 bg-red-600 hover:bg-red-700">{uploading ? "Publishing..." : (editMode ? "Update" : "Publish")}</Button></div>
             </form>
           </CardContent>
@@ -720,7 +899,7 @@ export default function DashboardPage() {
             <div className="max-w-7xl mx-auto h-full">
               <AnimatePresence mode="wait">
                 <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="h-full">
-                  {activeTab === 'overview' && <DashboardOverview user={user} profile={myProfile} />}
+                  {activeTab === 'overview' && <DashboardOverview user={user} profile={myProfile} setActiveTab={setActiveTab} />}
                   {activeTab === 'repository' && <AdvancedRepository userProfile={myProfile} isAdmin={isAdmin} />}
                   {activeTab === 'team' && isAdmin && <DepartmentManager myProfile={myProfile} />}
                   {activeTab === 'admin' && isAdmin && <AdminCMS myProfile={myProfile} />}

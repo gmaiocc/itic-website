@@ -62,7 +62,6 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-8">
             <Link to="/" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Home</Link>
             <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">About</Link>
-            <Link to="/alumni" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Alumni</Link>
 
             {/* Departments Dropdown - CORRIGIDO O ESPAÇAMENTO */}
             <NavigationMenu>
@@ -96,8 +95,7 @@ const Navbar = () => {
             </NavigationMenu>
 
             <Link to="/reports" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Reports</Link>
-            <Link to="/gallery" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Gallery</Link>
-            <Link to="/faq" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">FAQ</Link>
+
             
             <Link to="/contact">
               <button className="px-6 py-2.5 text-sm font-bold text-white bg-red-600 rounded-full hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-red-600/20 active:scale-95">
@@ -128,7 +126,6 @@ const Navbar = () => {
             <div className="container px-4 py-6 space-y-4 max-h-[80vh] overflow-y-auto">
               <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">Home</Link>
               <Link to="/about" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">About</Link>
-              <Link to="/alumni" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">Alumni</Link>
               
               <button onClick={() => setIsMobileDepartmentsOpen(!isMobileDepartmentsOpen)} className="flex w-full justify-between items-center py-2 text-gray-900 font-medium hover:text-red-600">
                 Departments <ChevronDown className={`w-4 h-4 transition-transform ${isMobileDepartmentsOpen ? "rotate-180" : ""}`} />
@@ -152,8 +149,6 @@ const Navbar = () => {
               </AnimatePresence>
 
               <Link to="/reports" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">Reports</Link>
-              <Link to="/gallery" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">Gallery</Link>
-              <Link to="/faq" onClick={() => setIsOpen(false)} className="block py-2 text-gray-900 font-medium hover:text-red-600">FAQ</Link>
               
               <div className="pt-4 border-t border-gray-100">
                 <Link to="/contact" onClick={() => setIsOpen(false)} className="block w-full text-center py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700">

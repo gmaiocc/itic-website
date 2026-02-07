@@ -2,18 +2,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle,
+  Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, TrendingUp, FileText, PieChart, Activity, FileBarChart, Clock } from "lucide-react";
+import { Download, TrendingUp, FileText, PieChart, Activity, FileBarChart, Clock, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
-// Imagem de fundo (Financial Analysis/Papers)
+// Imagem de fundo do Hero
 const REPORTS_HERO_BG = "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop";
+
+// Imagem de segurança caso tudo falhe (Cinza abstrato)
+const SAFE_FALLBACK_IMG = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000";
 
 const ReportsPage = () => {
   const [reports, setReports] = useState<any[]>([]);
@@ -39,19 +43,34 @@ const ReportsPage = () => {
     }
   }
 
-  // Mapeamento de Ícones e Cores por Departamento (Ajustado para o tema Vermelho)
-  const getDeptStyles = (category: string) => {
+  // --- FALLBACK IMAGES (URLs Atualizados e mais estáveis) ---
+  const getFallbackCover = (category: string) => {
     switch(category) {
       case 'Trading': 
-        return { icon: TrendingUp, label: "Trading" };
+        // Gráficos financeiros / Ecrãs
+        return "https://images.unsplash.com/photo-1611974765270-ca12586343bb?auto=format&fit=crop&q=80&w=1000";
       case 'Asset Management': 
-        return { icon: PieChart, label: "Asset Mgmt" };
+        // Edifícios financeiros / Wall Street vibe
+        return "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=1000";
       case 'Research': 
-        return { icon: FileText, label: "Research" };
+        // Documentos / Escrita / Análise
+        return "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000";
       case 'Operations': 
-        return { icon: Activity, label: "Operations" };
+        // Reunião de equipa / Planeamento
+        return "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1000";
       default: 
-        return { icon: FileBarChart, label: "General" };
+        // Genérico (Moedas/Gráficos)
+        return "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&q=80&w=1000";
+    }
+  };
+
+  const getCategoryColor = (category: string) => {
+    switch(category) {
+      case 'Trading': return "bg-blue-600";
+      case 'Asset Management': return "bg-green-600";
+      case 'Research': return "bg-purple-600";
+      case 'Operations': return "bg-orange-600";
+      default: return "bg-gray-600";
     }
   };
 
@@ -72,7 +91,6 @@ const ReportsPage = () => {
 
         {/* --- HERO SECTION --- */}
         <section className="relative pt-32 pb-24 overflow-hidden min-h-[50vh] flex items-center justify-center">
-          {/* Background */}
           <div className="absolute inset-0 z-0">
             <img src={REPORTS_HERO_BG} alt="Market Analysis" className="w-full h-full object-cover grayscale opacity-30" />
             <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white" />
@@ -131,7 +149,7 @@ const ReportsPage = () => {
                     /* SKELETON LOADING STATE */
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-64 rounded-2xl bg-gray-100 animate-pulse border border-gray-200" />
+                        <div key={i} className="h-96 rounded-2xl bg-gray-100 animate-pulse border border-gray-200" />
                       ))}
                     </div>
                   ) : (
@@ -144,42 +162,64 @@ const ReportsPage = () => {
                       {reports
                         .filter((r) => tab === "All" || r.category === tab)
                         .map((report, index) => {
-                          const { icon: Icon, label } = getDeptStyles(report.category);
+                          // LÓGICA DE CAPA SEGURA
+                          const coverImage = report.cover_url ? report.cover_url : getFallbackCover(report.category || 'Default');
+                          const categoryColor = getCategoryColor(report.category);
+
                           return (
                             <motion.div key={report.id || index} variants={itemVariants}>
-                              <Card className="group h-full flex flex-col justify-between border border-gray-200 bg-white hover:border-red-200 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 rounded-2xl overflow-hidden">
-                                <CardHeader className="space-y-4">
-                                  <div className="flex items-center justify-between">
-                                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wider">
-                                      <Icon className="w-3 h-3" />
-                                      {label}
-                                    </div>
-                                    <div className="flex items-center text-gray-400 text-xs">
-                                      <Clock className="w-3 h-3 mr-1" />
+                              <Card className="group h-full flex flex-col justify-between border border-gray-200 bg-white hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-500 rounded-2xl overflow-hidden hover:-translate-y-1">
+                                
+                                {/* --- CAPA VISUAL (THUMBNAIL) --- */}
+                                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                                  <div className="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10" />
+                                  <img 
+                                    src={coverImage} 
+                                    alt="Report Cover" 
+                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                                    // PROTEÇÃO EXTRA: Se a imagem falhar, carrega o fallback seguro
+                                    onError={(e) => {
+                                      e.currentTarget.src = SAFE_FALLBACK_IMG;
+                                    }}
+                                  />
+                                  {/* Badge de Categoria */}
+                                  <div className="absolute top-4 left-4 z-20">
+                                    <Badge className={`${categoryColor} text-white hover:${categoryColor} border-none px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-lg`}>
+                                      {report.category || 'General'}
+                                    </Badge>
+                                  </div>
+                                </div>
+
+                                <CardHeader className="space-y-3 pt-6">
+                                  <div className="flex items-center justify-between text-xs text-gray-400 font-medium uppercase tracking-wide">
+                                    <span className="flex items-center gap-1">
+                                      <FileText className="w-3 h-3" /> Report
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                      <Clock className="w-3 h-3" />
                                       {report.created_at ? format(new Date(report.created_at), 'MMM d, yyyy') : 'Recently'}
-                                    </div>
+                                    </span>
                                   </div>
                                   
-                                  <div className="space-y-2">
-                                    <CardTitle className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-red-600 transition-colors">
-                                      {report.title}
-                                    </CardTitle>
-                                    <CardDescription className="line-clamp-3 text-gray-500 text-sm leading-relaxed">
-                                      {report.description}
-                                    </CardDescription>
-                                  </div>
+                                  <CardTitle className="text-xl font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-red-600 transition-colors">
+                                    {report.title}
+                                  </CardTitle>
+                                  
+                                  <CardDescription className="line-clamp-3 text-gray-500 text-sm leading-relaxed">
+                                    {report.description}
+                                  </CardDescription>
                                 </CardHeader>
                                 
-                                <CardContent className="pt-0">
+                                <CardFooter className="pt-2 pb-6">
                                   <Button
                                     variant="outline"
-                                    className="w-full rounded-xl h-11 border-gray-200 text-gray-700 font-medium hover:bg-red-600 hover:text-white hover:border-red-600 transition-all group/btn"
+                                    className="w-full rounded-xl h-11 border-gray-200 text-gray-700 font-bold hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all group/btn"
                                     onClick={() => window.open(report.file_url, '_blank')}
                                   >
-                                    Read Report
-                                    <Download className="w-4 h-4 ml-2 group-hover/btn:-translate-y-0.5 transition-transform" />
+                                    Read Full Report
+                                    <ArrowUpRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                                   </Button>
-                                </CardContent>
+                                </CardFooter>
                               </Card>
                             </motion.div>
                           );
@@ -188,7 +228,7 @@ const ReportsPage = () => {
                       {/* EMPTY STATE */}
                       {!loading && reports.filter((r) => tab === "All" || r.category === tab).length === 0 && (
                         <div className="col-span-full py-20 text-center">
-                          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100">
                             <FileText className="w-8 h-8 text-gray-300" />
                           </div>
                           <h3 className="text-lg font-semibold text-gray-900">No reports found</h3>

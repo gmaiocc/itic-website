@@ -2,15 +2,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Instagram, Linkedin, Send, MessageSquare } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, Send, MessageSquare, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser"; // <--- IMPORTANTE
 
-// Imagem de fundo temática (Communication/Connection)
+// Imagem de fundo temática
 const CONTACT_HERO_BG = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop";
 
 const ContactPage = () => {
@@ -23,27 +24,53 @@ const ContactPage = () => {
     message: ""
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulação de envio
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    toast({
-      title: "Message sent!",
-      description: "We will get back to you shortly.",
-    });
-
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // --- CONFIGURAÇÃO DO EMAILJS ---
+    // Substitui estes valores pelos do teu painel EmailJS
+    const SERVICE_ID = "YOUR_SERVICE_ID"; 
+    const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+
+    // Mapeamento dos dados para o Template do EmailJS
+    const templateParams = {
+      from_name: formData.name,  // No template usar {{from_name}}
+      reply_to: formData.email,  // No template usar {{reply_to}}
+      subject: formData.subject, // No template usar {{subject}}
+      message: formData.message, // No template usar {{message}}
+    };
+
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We will get back to you shortly.",
+        variant: "default", // Verde/Sucesso
+      });
+
+      // Limpar formulário
+      setFormData({ name: "", email: "", subject: "", message: "" });
+
+    } catch (error) {
+      console.error("FAILED...", error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again later or email us directly.",
+        variant: "destructive", // Vermelho/Erro
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -233,7 +260,7 @@ const ContactPage = () => {
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
-                        "Sending..." 
+                        <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin"/> Sending...</span>
                       ) : (
                         <span className="flex items-center gap-2">Send Message <Send className="w-4 h-4" /></span>
                       )}
@@ -245,11 +272,10 @@ const ContactPage = () => {
             </div>
           </section>
 
-          {/* --- MAP PLACEHOLDER (Optional Visual) --- */}
+          {/* --- MAP PLACEHOLDER --- */}
           <section className="h-[400px] w-full bg-gray-100 relative grayscale opacity-80 border-t border-gray-200">
-             {/* Podes substituir este iframe pelo link real do Google Maps do ISCTE */}
              <iframe 
-               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3112.567860226847!2d-9.15582362349791!3d38.74768395669527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19330362f92d6d%3A0x7376662703473206!2sISCTE%20-%20Instituto%20Universit%C3%A1rio%20de%20Lisboa!5e0!3m2!1sen!2spt!4v1710000000000!5m2!1sen!2spt" 
+               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3112.593895240263!2d-9.155799623432777!3d38.74902265670732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1933017dca3263%3A0x867375a03780373f!2sISCTE%20-%20Instituto%20Universit%C3%A1rio%20de%20Lisboa!5e0!3m2!1spt-PT!2spt!4v1709230000000!5m2!1spt-PT!2spt" 
                width="100%" 
                height="100%" 
                style={{ border: 0 }} 
@@ -257,7 +283,6 @@ const ContactPage = () => {
                loading="lazy" 
                referrerPolicy="no-referrer-when-downgrade"
              ></iframe>
-             {/* Overlay para manter o estilo da marca */}
              <div className="absolute inset-0 bg-red-900/10 pointer-events-none" />
           </section>
 
