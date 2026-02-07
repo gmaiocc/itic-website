@@ -269,7 +269,7 @@ const AboutPage = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
                       <div className="bg-gray-200 w-full aspect-[4/5] relative">
                         <img
-                          src="/src/assets/aboutpage.jpg"
+                          src="./src/assets/aboutpage.jpg"
                           alt="ITIC Community"
                           className="w-full h-full object-cover"
                           onError={(e) => {
