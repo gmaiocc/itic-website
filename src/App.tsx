@@ -17,6 +17,9 @@ import LoginPage from "@/pages/LoginPage";
 import DashboardPage from "@/pages/DashboardPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import GalleryPage from "./pages/TeamPage";
+import AlumniPage from "./pages/AlumniPage";
+import FAQPage from "./pages/FAQPage";
 
 const queryClient = new QueryClient();
 
@@ -31,11 +34,13 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/alumni" element={<AlumniPage />} />
             <Route path="/departments/trading" element={<TradingPage />} />
             <Route path="/departments/asset-management" element={<AssetManagementPage />} />
             <Route path="/departments/research" element={<ResearchPage />} />
             <Route path="/departments/human-resources" element={<HumanResourcesPage />} />
-            <Route path="/gallery" element={<TeamPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route element={<ProtectedRoute />}>

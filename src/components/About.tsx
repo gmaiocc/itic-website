@@ -1,144 +1,177 @@
-import { Target, Users, Lightbulb, Award } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Target, Users, Lightbulb, Award, BarChart2, PieChart, Search, Globe, CheckCircle2, TrendingUp, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 
 const About = () => {
-  const values = [
+  // Dados dos Departamentos (Agora com tema Vermelho/Cinza)
+  const departments = [
     {
-      icon: Target,
-      title: "Mission",
-      description:
-        "To bridge academic finance theory with real-world trading practice, creating a community of informed investors.",
+      title: "Trading",
+      icon: BarChart2,
+      desc: "Develop systematic & discretionary strategies across multiple asset classes using technical analysis.",
+      delay: 0.1
+    },
+    {
+      title: "Asset Management",
+      icon: PieChart,
+      desc: "Master long-term portfolio construction, risk management and fundamental valuation methods.",
+      delay: 0.2
+    },
+    {
+      title: "Research",
+      icon: Search,
+      desc: "Produce deep-dive macro analysis and equity reports to guide investment decisions.",
+      delay: 0.3
+    },
+    {
+      title: "Operations",
+      icon: Globe,
+      desc: "Manage partnerships, organize events, and drive the club's strategic growth and recruitment.",
+      delay: 0.4
+    },
+  ];
+
+  // Dados de "Why Join Us"
+  const benefits = [
+    {
+      icon: TrendingUp,
+      title: "Real Experience",
+      desc: "Move beyond theory. We manage virtual portfolios and simulate real-world trading pressure."
     },
     {
       icon: Users,
-      title: "Community",
-      description:
-        "A diverse network of students passionate about markets, sharing knowledge and growing together.",
+      title: "Alumni Network",
+      desc: "Connect with former members now working at top tier banks, funds, and consultancy firms."
     },
     {
-      icon: Lightbulb,
-      title: "Innovation",
-      description:
-        "Embracing cutting-edge financial technologies and strategies to stay ahead in dynamic markets.",
-    },
-    {
-      icon: Award,
-      title: "Excellence",
-      description:
-        "Committed to the highest standards in education, networking, and professional development.",
-    },
-  ];
-
-  const whatWeDo = [
-    {
-      title: "Trading & Market Strategy",
-      description:
-        "The Trading Department structures weekly market scans, develops systematic and discretionary strategies, and works on risk-managed trading frameworks across different asset classes.",
-    },
-    {
-      title: "Asset Management & Portfolios",
-      description:
-        "The Asset Management Department screens markets, builds equity research, and designs diversified portfolios using valuation methods and long-term investment approaches.",
-    },
-    {
-      title: "Macroeconomic & Equity Research",
-      description:
-        "The Research Department analyses macro reports, industry studies, and equity research, using tools like Bloomberg to understand what drives global markets and individual companies.",
-    },
-    {
-      title: "Operations & Member Experience",
-      description:
-        "The Operations Department oversees communication, recruitment, internal organization, and partnerships, ensuring a structured club and a high-quality experience for every member.",
-    },
+      icon: BookOpen,
+      title: "Exclusive Workshops",
+      desc: "Access internal training sessions on Bloomberg, Technical Analysis, and Financial Modeling."
+    }
   ];
 
   return (
-    <section className="py-24 bg-background" id="about">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+    <section className="py-24 bg-white relative overflow-hidden" id="about">
+      
+      {/* Background Grid Subtil (Igual ao Hero para consistência) */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* --- HEADER: MISSÃO & VALORES --- */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-wider mb-4 border border-red-100">
+              Who We Are
+            </div>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-6 leading-tight">
+              Bridging Theory & <br />
+              <span className="text-red-600">Real-World Finance</span>
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              Established in 2017, ITIC is ISCTE Business School's premier student organization. 
+              We are a meritocratic community dedicated to closing the gap between academic concepts and the fast-paced reality of financial markets.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              Whether you are interested in high-frequency trading, long-term value investing, or macroeconomic research, ITIC provides the tools, mentorship, and environment to excel.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-2 gap-4"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {[
+              { icon: Target, title: "Mission", txt: "Practical Skills" },
+              { icon: Users, title: "Community", txt: "Strong Network" },
+              { icon: Lightbulb, title: "Innovation", txt: "New Strategies" },
+              { icon: Award, title: "Excellence", txt: "Top Standards" },
+            ].map((val, i) => (
+              <div key={i} className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-red-100 transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-red-600 transition-colors duration-300">
+                  <val.icon className="w-5 h-5 text-gray-900 group-hover:text-white transition-colors" />
+                </div>
+                <h4 className="font-bold text-gray-900 mb-1">{val.title}</h4>
+                <p className="text-xs text-gray-500 uppercase tracking-wide">{val.txt}</p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* --- SECÇÃO DEPARTAMENTOS --- */}
+        <div className="mb-24">
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h3 className="text-3xl font-heading font-bold text-gray-900 mb-4">Our Ecosystem</h3>
+            <p className="text-gray-600">
+              Four specialized departments working in synergy to cover every aspect of the financial world.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {departments.map((dept, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: dept.delay }}
+                whileHover={{ y: -5 }}
+                className="p-8 rounded-2xl bg-white border border-gray-200 hover:border-red-200 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 group"
+              >
+                <div className="w-14 h-14 rounded-xl bg-red-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <dept.icon className="w-7 h-7 text-red-600" />
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-3">{dept.title}</h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {dept.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* --- SECÇÃO EXTRA: WHY JOIN US --- */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden"
         >
-          <h2 className="text-4xl sm:text-5xl font-heading font-bold text-foreground mb-6">
-            About <span className="text-accent">ITIC</span>
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Established in 2017, ITIC is ISCTE Business School&apos;s premier
-            student organization dedicated to finance and investment education.
-            We provide a platform for ambitious students to develop practical
-            trading skills, network with industry professionals, and explore
-            career opportunities in finance.
-          </p>
-        </motion.div>
+          {/* Decorative gradients */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-600/20 blur-[100px] rounded-full pointer-events-none translate-x-1/2 -translate-y-1/2" />
+          
+          <div className="relative z-10">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-heading font-bold mb-4">Why Join ITIC?</h3>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                We provide the bridge between the classroom and the trading floor.
+              </p>
+            </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {values.map((value, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
-            >
-              <Card className="border-2 hover:border-accent/50 transition-smooth shadow-card hover:shadow-elegant group h-full">
-                <CardContent className="p-6 space-y-4">
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-smooth"
-                  >
-                    <value.icon className="w-7 h-7 text-accent" />
-                  </motion.div>
-                  <h3 className="text-xl font-heading font-semibold text-foreground">
-                    {value.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {value.description}
+            <div className="grid md:grid-cols-3 gap-8">
+              {benefits.map((benefit, i) => (
+                <div key={i} className="flex flex-col items-center text-center space-y-4 p-4">
+                  <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+                    <benefit.icon className="w-6 h-6 text-red-500" />
+                  </div>
+                  <h4 className="text-xl font-semibold">{benefit.title}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {benefit.desc}
                   </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="gradient-hero rounded-3xl p-8 sm:p-12 text-white"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-3xl sm:text-4xl font-heading font-bold mb-6">
-              Overview of Our Departments
-            </h3>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {whatWeDo.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className="space-y-3 cursor-pointer"
-                >
-                  <h4 className="text-xl font-semibold text-white">
-                    {item.title}
-                  </h4>
-                  <p className="text-white/90">
-                    {item.description}
-                  </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
         </motion.div>
+
       </div>
     </section>
   );
