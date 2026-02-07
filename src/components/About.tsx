@@ -34,29 +34,29 @@ const About = () => {
   const benefits = [
     {
       icon: TrendingUp,
-      title: "Real Experience",
-      desc: "Move beyond theory. We manage virtual portfolios and simulate real-world trading pressure."
+      title: "Applied Finance & Markets",
+      desc: "Develop practical skills in financial markets, risk analysis and investment concepts through real case studies and hands-on projects."
     },
     {
       icon: Users,
       title: "Alumni Network",
-      desc: "Connect with former members now working at top tier banks, funds, and consultancy firms."
+      desc: "Connect with former members now working in banks, asset managers, consulting and other finance-related institutions."
     },
     {
       icon: BookOpen,
-      title: "Exclusive Workshops",
-      desc: "Access internal training sessions on Bloomberg, Technical Analysis, and Financial Modeling."
+      title: "Career & Technical Development",
+      desc: "Strengthen your technical background and career readiness through internal initiatives, projects and peer-to-peer learning."
     }
   ];
 
   return (
     <section className="py-24 bg-white relative overflow-hidden" id="about">
-      
+
       {/* Background Grid Subtil (Igual ao Hero para consistência) */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* --- HEADER: MISSÃO & VALORES --- */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
           <motion.div
@@ -73,7 +73,7 @@ const About = () => {
               <span className="text-red-600">Real-World Finance</span>
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Established in 2017, ITIC is ISCTE Business School's premier student organization. 
+              Established in 2017, ITIC is ISCTE Business School's premier student organization.
               We are a meritocratic community dedicated to closing the gap between academic concepts and the fast-paced reality of financial markets.
             </p>
             <p className="text-gray-600 leading-relaxed">
@@ -81,7 +81,7 @@ const About = () => {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 gap-4"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -138,7 +138,7 @@ const About = () => {
         </div>
 
         {/* --- SECÇÃO EXTRA: WHY JOIN US --- */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -147,12 +147,12 @@ const About = () => {
         >
           {/* Decorative gradients */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-600/20 blur-[100px] rounded-full pointer-events-none translate-x-1/2 -translate-y-1/2" />
-          
+
           <div className="relative z-10">
             <div className="text-center mb-12">
               <h3 className="text-3xl font-heading font-bold mb-4">Why Join ITIC?</h3>
               <p className="text-gray-400 max-w-2xl mx-auto">
-                We provide the bridge between the classroom and the trading floor.
+                We bridge the gap between academic learning and real-world finance, helping students build practical skills for careers in banking, markets and consulting.
               </p>
             </div>
 

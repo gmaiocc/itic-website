@@ -81,10 +81,10 @@ const TradingPage = () => {
   ];
 
   const tools = [
-    { name: "Bloomberg Terminal", icon: Monitor },
-    { name: "TradingView", icon: Activity },
-    { name: "Python", icon: Terminal },
-    { name: "Excel Modeling", icon: BarChart4 },
+    { name: "Forex", icon: Monitor },
+    { name: "Stocks", icon: Activity },
+    { name: "Crypto Currencies", icon: Terminal },
+    { name: "Derivatives", icon: BarChart4 },
   ];
 
   const scrollToContent = () => {
@@ -247,24 +247,24 @@ const TradingPage = () => {
                   <div>
                     <h3 className="text-3xl font-heading font-bold text-gray-900 mb-6">Leading with Discipline</h3>
                     <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                      "In the Trading Department, we don't just guess where the market is going. We build probabilities. My goal is to teach members that trading is 10% strategy and 90% risk management and psychology."
+                      "..."
                     </p>
                     <p className="text-lg text-gray-600 leading-relaxed">
-                      David oversees the department's weekly routine, mentors junior analysts, and manages the club's model portfolio. With a background in Quant Finance, he pushes for data-backed decision making.
+                      ...
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-100">
                     <div>
-                      <div className="text-3xl font-bold text-red-600">3+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Years Exp.</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">FX</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Specialty</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">15+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Team Size</div>
                     </div>
                   </div>

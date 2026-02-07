@@ -22,7 +22,7 @@ const faqs = [
       },
       {
         q: "What is the selection process like?",
-        a: "It typically involves an online application form, followed by a group dynamic or technical challenge, and a final individual interview with the board."
+        a: "It typically involves an online application form, followed by a group dynamic or technical challenge, and a final individual project."
       }
     ]
   },
@@ -31,11 +31,11 @@ const faqs = [
     questions: [
       {
         q: "What is the expected time commitment?",
-        a: "We expect around 4-6 hours per week. This includes department meetings, workshops, and individual work on reports or projects."
+        a: ""
       },
       {
         q: "Can I be in multiple departments?",
-        a: "Generally, members are assigned to one primary department to ensure focus. However, cross-departmental projects are common and encouraged."
+        a: ""
       }
     ]
   },
@@ -44,11 +44,7 @@ const faqs = [
     questions: [
       {
         q: "What software do you use in Trading?",
-        a: "We primarily use TradingView for charting, MT4/MT5 for execution simulation, and Python for quantitative backtesting."
-      },
-      {
-        q: "Do I get access to the Bloomberg Terminal?",
-        a: "Yes. ITIC has dedicated slots for accessing the Bloomberg Terminal at ISCTE, primarily used by our Research and Asset Management teams."
+        a: ""
       }
     ]
   }

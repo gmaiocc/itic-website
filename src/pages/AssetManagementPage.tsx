@@ -80,7 +80,7 @@ const AssetManagementPage = () => {
   ];
 
   const tools = [
-    { name: "Bloomberg Terminal", icon: Monitor },
+    { name: "...", icon: Monitor },
     { name: "Excel Modeling", icon: FileSpreadsheet },
     { name: "Financial Reporting", icon: Activity },
     { name: "Pitch Decking", icon: Presentation },
@@ -240,26 +240,26 @@ const AssetManagementPage = () => {
                   className="lg:col-span-7 space-y-8"
                 >
                   <div>
-                    <h3 className="text-3xl font-heading font-bold text-gray-900 mb-6">Structuring Long-Term Value</h3>
+                    <h3 className="text-3xl font-heading font-bold text-gray-900 mb-6">...</h3>
                     <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                      "Asset Management is about finding value where others don't look. We teach our members that a robust portfolio is built on deep fundamental analysis and a clear understanding of what a business is truly worth."
+                      "..."
                     </p>
                     <p className="text-lg text-gray-600 leading-relaxed">
-                      Vasco leads the department with a focus on equity research and portfolio construction. He ensures every investment thesis is backed by rigorous data and sound financial modeling.
+                       ...
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-100">
                     <div>
-                      <div className="text-3xl font-bold text-red-600">3+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Years Exp.</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">Equities</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Specialty</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">15+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Team Size</div>
                     </div>
                   </div>
@@ -281,9 +281,9 @@ const AssetManagementPage = () => {
 
               <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {[
-                  { step: "01", title: "Screen & Select", text: "We filter the global universe of stocks using macro trends and quantitative screeners to find potential winners." },
-                  { step: "02", title: "Deep Analysis", text: "We perform deep-dives on business models, moats, and financials to determine intrinsic value." },
-                  { step: "03", title: "Structure & Monitor", text: "Assets are allocated based on conviction and correlation. We monitor performance continuously." }
+                  { step: "01", title: "...", text: "..." },
+                  { step: "02", title: "...", text: "..." },
+                  { step: "03", title: "...", text: "..." }
                 ].map((phase, i) => (
                   <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-red-200 transition-all">
                     <div className="text-8xl font-bold text-gray-100 absolute -top-4 -right-4 select-none group-hover:text-red-50 transition-colors">

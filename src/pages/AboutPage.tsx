@@ -5,20 +5,22 @@ import { motion } from "framer-motion";
 import { Quote, User, Users, Target, Calendar, Briefcase, ChevronRight, Linkedin } from "lucide-react";
 import presidentImg from "@/assets/presidentv2.png";
 import vicepresidentImg from "@/assets/vicepresidentv2.png";
-// IMPORTANTE: Importa aqui a imagem do novo Vice-Presidente
-// import vicepresident2Img from "@/assets/vicepresident2.png"; 
+import vicepresident2Img from "@/assets/vicepresident2.png";
+import fotopresidente from "@/assets/fotopresidente.png";
+import fotovicepresidente1 from "@/assets/fotovicepresidente1.png";
+import fotovicepresidente2 from "@/assets/fotovicepresidente2.png";
 
 const AboutPage = () => {
   return (
     <PageTransition>
       <div className="min-h-screen bg-white">
         <Navbar />
-        
+
         {/* --- HEADER SECTION --- */}
         <div className="relative pt-32 pb-20 overflow-hidden bg-gray-50 border-b border-gray-200">
           <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-70"></div>
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-          
+
           <div className="container mx-auto px-4 relative z-10 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -33,7 +35,7 @@ const AboutPage = () => {
                 About <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800">ITIC</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light max-w-2xl mx-auto">
-                ISCTE Trading & Investment Club. <br/>
+                ISCTE Trading & Investment Club. <br />
                 <span className="text-gray-400 text-lg">#FinancialKnowledge</span>
               </p>
             </motion.div>
@@ -62,7 +64,7 @@ const AboutPage = () => {
 
               {/* HIERARCHY CONTAINER */}
               <div className="flex flex-col items-center gap-12 lg:gap-16">
-                
+
                 {/* LEVEL 1: PRESIDENT (Centered & Slightly Larger) */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -76,7 +78,7 @@ const AboutPage = () => {
                     <div className="relative w-56 h-56 mx-auto mb-8">
                       <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
                       <img
-                        src={presidentImg}
+                        src={fotopresidente}
                         alt="Francisco Branco"
                         className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-lg"
                       />
@@ -84,16 +86,16 @@ const AboutPage = () => {
                         <User className="w-5 h-5" />
                       </div>
                     </div>
-                    
+
                     <h3 className="text-3xl font-bold text-gray-900 mb-1">Francisco Branco</h3>
-                    
+
                     {/* Role + LinkedIn */}
                     <div className="flex items-center justify-center gap-2 mb-6">
                       <p className="text-red-600 font-bold text-sm uppercase tracking-wider">President</p>
                       <span className="text-gray-300">|</span>
-                      <a 
-                        href="#" // <--- COLOCA O LINK DO LINKEDIN AQUI
-                        target="_blank" 
+                      <a
+                        href="https://www.linkedin.com/in/francisco--branco/"
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-[#0077b5] transition-colors"
                         aria-label="LinkedIn Profile"
@@ -105,7 +107,7 @@ const AboutPage = () => {
                     <div className="relative">
                       <Quote className="w-8 h-8 text-gray-200 absolute -top-4 -left-2 transform -scale-x-100" />
                       <p className="text-gray-500 text-base leading-relaxed italic px-6">
-                        Leading ITIC with a vision to empower students through practical financial experience.
+                        QUOTE
                       </p>
                     </div>
                   </div>
@@ -113,7 +115,7 @@ const AboutPage = () => {
 
                 {/* LEVEL 2: VICE PRESIDENTS (Grid Side by Side) */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12 w-full max-w-5xl">
-                  
+
                   {/* VP 1 */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -127,7 +129,7 @@ const AboutPage = () => {
                       <div className="relative w-40 h-40 mx-auto mb-6">
                         <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
                         <img
-                          src={vicepresidentImg}
+                          src={fotovicepresidente1}
                           alt="Daniel Silva"
                           className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-md"
                         />
@@ -135,16 +137,16 @@ const AboutPage = () => {
                           <Users className="w-4 h-4" />
                         </div>
                       </div>
-                      
+
                       <h3 className="text-xl font-bold text-gray-900 mb-1">Daniel Silva</h3>
-                      
+
                       {/* Role + LinkedIn */}
                       <div className="flex items-center justify-center gap-2 mb-4">
                         <p className="text-red-600 font-medium text-xs uppercase tracking-wider">Vice President</p>
                         <span className="text-gray-300">|</span>
-                        <a 
-                          href="#" // <--- COLOCA O LINK DO LINKEDIN AQUI
-                          target="_blank" 
+                        <a
+                          href="https://www.linkedin.com/in/danielsantossilva1009/"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-400 hover:text-[#0077b5] transition-colors"
                         >
@@ -153,7 +155,7 @@ const AboutPage = () => {
                       </div>
 
                       <p className="text-gray-500 text-sm leading-relaxed italic px-2">
-                        Ensuring operational excellence and fostering a strong community spirit.
+                        QUOTE
                       </p>
                     </div>
                   </motion.div>
@@ -172,7 +174,7 @@ const AboutPage = () => {
                         <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
                         {/* ATENÇÃO: Substituir 'vicepresidentImg' pela imagem do novo VP quando tiveres */}
                         <img
-                          src={vicepresidentImg} 
+                          src={fotovicepresidente2}
                           alt="New VP Name"
                           className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-md"
                         />
@@ -180,16 +182,16 @@ const AboutPage = () => {
                           <Users className="w-4 h-4" />
                         </div>
                       </div>
-                      
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">Novo Nome</h3>
-                      
+
+                      <h3 className="text-xl font-bold text-gray-900 mb-1">David Costa</h3>
+
                       {/* Role + LinkedIn */}
                       <div className="flex items-center justify-center gap-2 mb-4">
                         <p className="text-red-600 font-medium text-xs uppercase tracking-wider">Vice President</p>
                         <span className="text-gray-300">|</span>
-                        <a 
-                          href="#" // <--- COLOCA O LINK DO LINKEDIN AQUI
-                          target="_blank" 
+                        <a
+                          href="https://www.linkedin.com/in/david-carias-pinto-costa/"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-400 hover:text-[#0077b5] transition-colors"
                         >
@@ -198,7 +200,7 @@ const AboutPage = () => {
                       </div>
 
                       <p className="text-gray-500 text-sm leading-relaxed italic px-2">
-                        Driving strategic initiatives and overseeing external partnerships.
+                        QUOTE
                       </p>
                     </div>
                   </motion.div>
@@ -213,7 +215,7 @@ const AboutPage = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
-                  
+
                   {/* Left Column: Text Content */}
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
@@ -228,7 +230,7 @@ const AboutPage = () => {
                         <span className="text-red-600">Real Markets</span>
                       </h2>
                       <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                        ITIC – ISCTE Trading & Investment Club is more than just a student group; it is a professional training ground. 
+                        ITIC – ISCTE Trading & Investment Club is more than just a student group; it is a professional training ground.
                         Founded to bridge the gap between classroom theory and the fast-paced reality of the financial world, we provide a unique platform for skill development.
                       </p>
                       <p className="text-lg text-gray-600 leading-relaxed">
@@ -266,8 +268,8 @@ const AboutPage = () => {
                     <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border border-gray-200">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
                       <div className="bg-gray-200 w-full aspect-[4/5] relative">
-                         <img
-                          src="/images/itic-club-photo.jpg"
+                        <img
+                          src="/src/assets/aboutpage.jpg"
                           alt="ITIC Community"
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -295,18 +297,24 @@ const AboutPage = () => {
               <div className="max-w-3xl mx-auto bg-gray-900 rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-2xl">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-700/30 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
-                
+
                 <div className="relative z-10 space-y-6">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">Ready to join the club?</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                    Ready to join the club?
+                  </h2>
+
                   <p className="text-gray-300 text-lg">
-                    Whether you are a beginner or an advanced trader, there is a place for you at ITIC.
+                    Whether you are interested in markets, risk, corporate finance or consulting,
+                    there is a place for you at ITIC.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <a href="/contact" className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-red-600 text-white font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20">
-                      Contact Us
-                    </a>
-                    <a href="/departments" className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/10 group">
-                      Explore Departments <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+
+                  <div className="flex justify-center pt-4">
+                    <a
+                      href="/departments"
+                      className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/10 group"
+                    >
+                      Explore Departments
+                      <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </a>
                   </div>
                 </div>
@@ -314,7 +322,7 @@ const AboutPage = () => {
             </div>
           </section>
         </main>
-        
+
         <Footer />
       </div>
     </PageTransition>

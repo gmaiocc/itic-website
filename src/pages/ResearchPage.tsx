@@ -74,13 +74,13 @@ const ResearchPage = () => {
     },
     {
       icon: BookOpen,
-      title: "Bloomberg Training",
-      desc: "Master the terminal. We focus on extracting data, navigating functions, and linking information to concrete research outputs."
+      title: "...",
+      desc: "..."
     }
   ];
 
   const tools = [
-    { name: "Bloomberg Terminal", icon: Monitor },
+    { name: "...", icon: Monitor },
     { name: "Macro Data Sources", icon: Database },
     { name: "Equity Reports", icon: FileText },
     { name: "Investment Pitches", icon: Presentation },
@@ -240,26 +240,26 @@ const ResearchPage = () => {
                   className="lg:col-span-7 space-y-8"
                 >
                   <div>
-                    <h3 className="text-3xl font-heading font-bold text-gray-900 mb-6">Separating Signal from Noise</h3>
+                    <h3 className="text-3xl font-heading font-bold text-gray-900 mb-6">...</h3>
                     <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                      "In a world flooded with information, the ability to synthesize data into a clear thesis is a superpower. We train our analysts to look beyond the headlines and understand the mechanics of the economy."
+                      "..."
                     </p>
                     <p className="text-lg text-gray-600 leading-relaxed">
-                      João leads the Research Department with a focus on macroeconomic drivers and thematic investing. He ensures the team produces high-quality reports that fuel the decisions of the entire club.
+                      ...
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-100">
                     <div>
-                      <div className="text-3xl font-bold text-red-600">2+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Years Exp.</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">Macro</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Specialty</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">10+</div>
+                      <div className="text-3xl font-bold text-red-600">...</div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Team Size</div>
                     </div>
                   </div>
@@ -281,9 +281,9 @@ const ResearchPage = () => {
 
               <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {[
-                  { step: "01", title: "Data Gathering", text: "We leverage the Bloomberg Terminal and official policy documents to source primary data." },
+                  { step: "01", title: "Data Gathering", text: "..." },
                   { step: "02", title: "Analysis & Synthesis", text: "We connect the dots between macro events and market impact, forming a coherent view." },
-                  { step: "03", title: "Publication", text: "Insights are distilled into professional reports and presented to the investment committee." }
+                  { step: "03", title: "Publication", text: "Insights are distilled into professional reports and presented..." }
                 ].map((phase, i) => (
                   <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-red-200 transition-all">
                     <div className="text-8xl font-bold text-gray-100 absolute -top-4 -right-4 select-none group-hover:text-red-50 transition-colors">

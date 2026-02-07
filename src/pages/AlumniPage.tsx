@@ -11,28 +11,28 @@ const ALUMNI_HERO_BG = "https://images.unsplash.com/photo-1444653614773-995cb1ef
 // Dados dos Alumni (Exemplo)
 const alumniStories = [
   {
-    name: "Ricardo Silva",
-    role: "Investment Banking Analyst",
-    company: "J.P. Morgan",
-    location: "London, UK",
-    quote: "ITIC gave me the technical foundation and the network I needed to break into London's banking scene.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000&auto=format&fit=crop"
+    name: "Alumni 1",
+    role: "",
+    company: "",
+    location: "",
+    quote: "",
+    image: ""
   },
   {
-    name: "Beatriz Costa",
-    role: "Consultant",
-    company: "Deloitte",
-    location: "Lisbon, PT",
-    quote: "The soft skills and leadership experience I gained as Head of Operations were invaluable for my consulting career.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1000&auto=format&fit=crop"
+    name: "Alumni 2",
+    role: "",
+    company: "",
+    location: "",
+    quote: "",
+    image: ""
   },
   {
-    name: "Tiago Mendes",
-    role: "Equity Research Associate",
-    company: "CaixaBI",
-    location: "Lisbon, PT",
-    quote: "Writing weekly reports at ITIC simulated the real pressure of a research desk. It was the perfect preparation.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000&auto=format&fit=crop"
+    name: "Alumni 3",
+    role: "",
+    company: "",
+    location: "",
+    quote: "",
+    image: ""
   }
 ];
 
@@ -156,7 +156,7 @@ const AlumniPage = () => {
                 <Linkedin className="w-12 h-12 text-blue-600 mx-auto mb-6" />
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Are you an ITIC Alumni?</h2>
                 <p className="text-gray-600 mb-8">
-                  Reconnect with the club, mentor current students, or simply stay updated with our latest newsletters.
+                  Reconnect with the club, mentor current students, or simply stay updated with our latest reports.
                 </p>
                 <div className="flex justify-center gap-4">
                   <a 
@@ -165,7 +165,7 @@ const AlumniPage = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
                   >
-                    Join Alumni Group
+                    ...
                   </a>
                 </div>
               </div>

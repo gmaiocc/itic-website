@@ -80,7 +80,7 @@ const OperationsPage = () => {
   ];
 
   const tools = [
-    { name: "Notion Systems", icon: Layout },
+    { name: "...", icon: Layout },
     { name: "LinkedIn Recruiter", icon: Share2 },
     { name: "Event Management", icon: Calendar },
     { name: "Internal Comms", icon: Mail },
@@ -251,15 +251,15 @@ const OperationsPage = () => {
 
                   <div className="grid grid-cols-3 gap-6 pt-6 border-t border-gray-100">
                     <div>
-                      <div className="text-3xl font-bold text-red-600">3+</div>
+                      <div className="text-3xl font-bold text-red-600"></div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Years Exp.</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">Culture</div>
+                      <div className="text-3xl font-bold text-red-600"></div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Specialty</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-red-600">50+</div>
+                      <div className="text-3xl font-bold text-red-600"></div>
                       <div className="text-sm text-gray-500 font-medium uppercase">Members Mgd</div>
                     </div>
                   </div>

@@ -14,64 +14,8 @@ const galleryPhotos = [
     title: "Annual Trading Dinner",
     category: "Social",
     date: "Dec 2023",
-    image: "https://images.unsplash.com/photo-1519671482502-9759101d4561?q=80&w=1470&auto=format&fit=crop",
+    image: "",
     vertical: false
-  },
-  {
-    id: 2,
-    title: "Bloomberg Workshop",
-    category: "Education",
-    date: "Nov 2023",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1470&auto=format&fit=crop",
-    vertical: true
-  },
-  {
-    id: 3,
-    title: "Investment Summit",
-    category: "Event",
-    date: "Oct 2023",
-    image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1470&auto=format&fit=crop",
-    vertical: false
-  },
-  {
-    id: 4,
-    title: "Team Building",
-    category: "Culture",
-    date: "Sep 2023",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&auto=format&fit=crop",
-    vertical: false
-  },
-  {
-    id: 5,
-    title: "Trading Floor Visit",
-    category: "Field Trip",
-    date: "May 2023",
-    image: "https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=1470&auto=format&fit=crop",
-    vertical: true
-  },
-  {
-    id: 6,
-    title: "Alumni Networking",
-    category: "Networking",
-    date: "Apr 2023",
-    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1470&auto=format&fit=crop",
-    vertical: false
-  },
-  {
-    id: 7,
-    title: "Guest Speaker Series",
-    category: "Education",
-    date: "Mar 2023",
-    image: "https://images.unsplash.com/photo-1475721027767-f421355f0881?q=80&w=1470&auto=format&fit=crop",
-    vertical: false
-  },
-  {
-    id: 8,
-    title: "Recruitment Day",
-    category: "Operations",
-    date: "Feb 2023",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1632&auto=format&fit=crop",
-    vertical: true
   },
 ];
 
