@@ -9,6 +9,7 @@ import vicepresident2Img from "@/assets/vicepresident2.png";
 import fotopresidente from "@/assets/fotopresidente.png";
 import fotovicepresidente1 from "@/assets/fotovicepresidente1.png";
 import fotovicepresidente2 from "@/assets/fotovicepresidente2.png";
+import aboutpageImg from "@/assets/aboutpage.jpg";
 
 const AboutPage = () => {
   return (
@@ -269,7 +270,7 @@ const AboutPage = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
                       <div className="bg-gray-200 w-full aspect-[4/5] relative">
                         <img
-                          src="./src/assets/aboutpage.jpg"
+                          src={aboutpageImg}
                           alt="ITIC Community"
                           className="w-full h-full object-cover"
                           onError={(e) => {
