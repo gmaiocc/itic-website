@@ -28,6 +28,7 @@ const Footer = () => {
             <h4 className="font-bold mb-6 text-gray-900">Club</h4>
             <ul className="space-y-3 text-sm text-gray-500">
               <li><Link to="/about" className="hover:text-red-600 transition-colors">About Us</Link></li>
+              <li><Link to="/strategies" className="hover:text-red-600 transition-colors">Strategies</Link></li>
               <li><Link to="/alumni" className="hover:text-red-600 transition-colors">Alumni Network</Link></li>
               <li><Link to="/gallery" className="hover:text-red-600 transition-colors">Gallery</Link></li>
               <li><Link to="/faq" className="hover:text-red-600 transition-colors">FAQ</Link></li>
