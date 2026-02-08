@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, Mail, Loader2, ArrowRight, UserPlus, LogIn } from "lucide-react";
+import { Lock, Mail, Loader2, ArrowRight, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const LOGIN_BG = "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop";
@@ -30,6 +30,7 @@ const LoginPage = () => {
     const cleanEmail = email.trim();
 
     if (isLogin) {
+      // --- LÓGICA DE LOGIN (Mantém-se igual) ---
       const { error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
         password,
@@ -38,9 +39,7 @@ const LoginPage = () => {
       if (error) {
         toast({
           title: "Erro no Login",
-          description: error.message === "Invalid login credentials"
-            ? "Credenciais inválidas. Verifica o email e password."
-            : error.message,
+          description: "Credenciais inválidas. Verifica o email e password.",
           variant: "destructive",
         });
       } else {
@@ -52,23 +51,41 @@ const LoginPage = () => {
       }
 
     } else {
-      const { error } = await supabase.auth.signUp({
-        email: cleanEmail,
-        password,
-      });
+      // --- LÓGICA DE REGISTO (NOVA SEGURANÇA) ---
+      
+      try {
+        // 1. Verificar se o email está na Whitelist antes de criar conta
+        const { data: whitelistData, error: whitelistError } = await supabase
+          .from('whitelist')
+          .select('email')
+          .eq('email', cleanEmail)
+          .single();
 
-      if (error) {
-        toast({
-          title: "Erro no Registo",
-          description: error.message,
-          variant: "destructive",
+        // Se der erro ou não encontrar dados, bloqueia o registo
+        if (whitelistError || !whitelistData) {
+          throw new Error("Este email não tem permissão para se registar. Contacta um administrador.");
+        }
+
+        // 2. Se passou na verificação, cria a conta
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: cleanEmail,
+          password,
         });
-      } else {
+
+        if (signUpError) throw signUpError;
+
         toast({
           title: "Conta criada!",
           description: "Bem-vindo ao clube! A redirecionar...",
         });
         navigate("/dashboard");
+
+      } catch (error: any) {
+        toast({
+          title: "Acesso Negado",
+          description: error.message || "Erro ao criar conta.",
+          variant: "destructive",
+        });
       }
     }
 
@@ -113,12 +130,12 @@ const LoginPage = () => {
                     transition={{ duration: 0.3 }}
                   >
                     <h2 className="text-3xl font-heading font-bold text-gray-900">
-                      {isLogin ? "Welcome Back" : "Join the Club"}
+                      {isLogin ? "Welcome Back" : "Member Registration"}
                     </h2>
                     <p className="text-gray-500 text-sm mt-2">
                       {isLogin
                         ? "Enter your credentials to access the dashboard."
-                        : "Create an account to access exclusive reports."}
+                        : "Only pre-approved members can register."}
                     </p>
                   </motion.div>
                 </div>
@@ -169,7 +186,7 @@ const LoginPage = () => {
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     ) : (
                       <span className="flex items-center gap-2">
-                        {isLogin ? "Sign In" : "Create Account"}
+                        {isLogin ? "Sign In" : "Verify & Register"}
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </span>
                     )}
