@@ -10,13 +10,11 @@ import tradingImg from "@/assets/tradingheadv2.png";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 
-// Imagem de fundo temática
 const TRADING_HERO_BG = "https://images.unsplash.com/photo-1611974765270-ca12586343bb?q=80&w=2070&auto=format&fit=crop";
 
 const TradingPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Configuração do Globo (Apenas Visual, Sem Interação)
   useEffect(() => {
     let phi = 0;
     let width = 0;
@@ -37,13 +35,12 @@ const TradingPage = () => {
       diffuse: 1.2,
       mapSamples: 14000,
       mapBrightness: 6,
-      baseColor: [0.8, 0.1, 0.1], // Vermelho
+      baseColor: [0.8, 0.1, 0.1],
       markerColor: [0.8, 0.1, 0.1],
       glowColor: [1, 0.5, 0.5], 
-      opacity: 0.6, // Opacidade a 60% como pedido
+      opacity: 0.6,
       markers: [],
       onRender: (state) => {
-        // Apenas rotação automática
         phi += 0.003;
         state.phi = phi;
         state.width = width * 2;
@@ -101,21 +98,17 @@ const TradingPage = () => {
         
         <main>
           
-          {/* --- HERO SECTION --- */}
           <section className="relative h-screen flex flex-col justify-center overflow-hidden">
             
-            {/* Background com Overlay */}
             <div className="absolute inset-0 z-0 pointer-events-none">
               <img src={TRADING_HERO_BG} alt="Trading Charts" className="w-full h-full object-cover grayscale opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/70" />
               <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-60 mix-blend-multiply"></div>
             </div>
 
-            {/* Conteúdo Central */}
             <div className="container mx-auto px-4 relative z-10 flex-grow flex flex-col justify-center pb-32">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 
-                {/* Coluna Esquerda: Texto */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -147,7 +140,6 @@ const TradingPage = () => {
                   </div>
                 </motion.div>
 
-                {/* Coluna Direita: GLOBO DECORATIVO (Não interativo) */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -156,7 +148,6 @@ const TradingPage = () => {
                 >
                   <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center">
                     
-                    {/* SOMBRA COMPRIDA ATRÁS (Backlight Blur) */}
                     <div className="absolute inset-0 bg-red-600/20 rounded-full blur-[120px] transform scale-110" />
                     
                     <canvas
@@ -164,9 +155,8 @@ const TradingPage = () => {
                       style={{ 
                         width: '100%', 
                         height: '100%', 
-                        opacity: 0.8, // Opacidade visual
+                        opacity: 0.8,
                         transition: 'opacity 1s ease',
-                        // Sombra definida no próprio elemento
                         filter: 'drop-shadow(0 0 40px rgba(220, 38, 38, 0.5))'
                       }}
                     />
@@ -176,7 +166,6 @@ const TradingPage = () => {
               </div>
             </div>
 
-            {/* SCROLL BUTTON */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, y: [0, 10, 0] }}
@@ -190,7 +179,6 @@ const TradingPage = () => {
               </div>
             </motion.div>
 
-            {/* TECH STACK STRIP */}
             <div className="absolute bottom-0 w-full bg-gray-900 border-t border-gray-800 py-6 z-20">
                <div className="container mx-auto px-4">
                   <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-90">
@@ -205,7 +193,6 @@ const TradingPage = () => {
             </div>
           </section>
 
-          {/* --- HEAD OF DEPARTMENT --- */}
           <section id="head-section" className="py-24 bg-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-50 rounded-full blur-[100px] opacity-60 pointer-events-none" />
             
@@ -274,7 +261,6 @@ const TradingPage = () => {
             </div>
           </section>
 
-          {/* --- THE PROCESS --- */}
           <section className="py-24 bg-gray-50">
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
@@ -304,7 +290,6 @@ const TradingPage = () => {
             </div>
           </section>
 
-          {/* --- CORE ACTIVITIES --- */}
           <section className="py-24 bg-white">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
@@ -333,7 +318,6 @@ const TradingPage = () => {
             </div>
           </section>
 
-          {/* --- RECRUITMENT CALLOUT --- */}
           <section className="py-20 bg-gray-900 text-white">
             <div className="container mx-auto px-4 text-center">
               <div className="max-w-3xl mx-auto space-y-6">

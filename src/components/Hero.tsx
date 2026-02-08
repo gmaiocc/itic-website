@@ -3,29 +3,25 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-// --- TIPO DE DADOS ---
 type TickerItem = {
   symbol: string;
   val: string;
   change: string;
   up: boolean;
-  apiSymbol: string; // Símbolo para a API da Binance
+  apiSymbol: string;
 };
 
-// --- COMPONENTE TICKER (APENAS DADOS REAIS) ---
 const TickerTape = () => {
-  // Estado Inicial apenas com ativos REAIS disponíveis na API pública
   const [items, setItems] = useState<TickerItem[]>([
     { symbol: "BTC/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "BTCUSDT" },
     { symbol: "ETH/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "ETHUSDT" },
     { symbol: "SOL/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "SOLUSDT" },
     { symbol: "BNB/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "BNBUSDT" },
-    { symbol: "EUR/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "EURUSDT" }, // Euro vs Dólar
-    { symbol: "GOLD (PAXG)", val: "Loading...", change: "0.00%", up: true, apiSymbol: "PAXGUSDT" }, // Paxos Gold (Preço real do ouro tokenizado)
+    { symbol: "EUR/USD", val: "Loading...", change: "0.00%", up: true, apiSymbol: "EURUSDT" },
+    { symbol: "GOLD (PAXG)", val: "Loading...", change: "0.00%", up: true, apiSymbol: "PAXGUSDT" },
   ]);
 
   useEffect(() => {
-    // FUNÇÃO PARA BUSCAR DADOS REAIS (Binance)
     const fetchRealData = async () => {
       try {
         const res = await fetch("https://api.binance.com/api/v3/ticker/24hr");
@@ -36,13 +32,12 @@ const TickerTape = () => {
           if (marketData) {
             const price = parseFloat(marketData.lastPrice);
             const change = parseFloat(marketData.priceChangePercent);
-            
-            // Formatação: 4 casas decimais para Forex (EUR), 2 para o resto
+
             const minimumDigits = item.symbol.includes("EUR") ? 4 : 2;
-            
-            const formattedPrice = price.toLocaleString('en-US', { 
-              minimumFractionDigits: minimumDigits, 
-              maximumFractionDigits: minimumDigits 
+
+            const formattedPrice = price.toLocaleString('en-US', {
+              minimumFractionDigits: minimumDigits,
+              maximumFractionDigits: minimumDigits
             });
 
             return {
@@ -59,10 +54,8 @@ const TickerTape = () => {
       }
     };
 
-    // Atualização Inicial
     fetchRealData();
 
-    // Atualizar a cada 5 segundos
     const realDataInterval = setInterval(fetchRealData, 5000);
 
     return () => clearInterval(realDataInterval);
@@ -75,7 +68,6 @@ const TickerTape = () => {
         animate={{ x: [0, -1000] }}
         transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
       >
-        {/* Renderiza a lista 4 vezes para criar o loop infinito visual fluido (já que a lista é menor agora) */}
         {[...items, ...items, ...items, ...items].map((item, i) => (
           <div key={i} className="flex items-center gap-2 text-xs font-mono tracking-wider min-w-fit">
             <span className="text-gray-900 font-bold">{item.symbol}</span>
@@ -90,16 +82,13 @@ const TickerTape = () => {
   );
 };
 
-// --- COMPONENTE HERO ---
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-white">
-      
-      {/* --- CONTEÚDO PRINCIPAL --- */}
+
       <div className="container mx-auto px-4 relative z-10 text-center">
         <div className="max-w-5xl mx-auto space-y-10">
-          
-          {/* Badge de Fundação */}
+
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -115,7 +104,6 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Título Principal */}
           <div className="space-y-4">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -130,7 +118,6 @@ const Hero = () => {
             </motion.h1>
           </div>
 
-          {/* Subtítulo */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,7 +127,6 @@ const Hero = () => {
             Empowering ambitious ISCTE students to master the world of finance, trading and investments through rigorous analysis and real-world practice.
           </motion.p>
 
-          {/* Botões de Ação */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -157,7 +143,6 @@ const Hero = () => {
             </Link>
           </motion.div>
 
-          {/* Stats Grid - CENTRADO */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

@@ -17,7 +17,6 @@ const AboutPage = () => {
       <div className="min-h-screen bg-white">
         <Navbar />
 
-        {/* --- HEADER SECTION --- */}
         <div className="relative pt-32 pb-20 overflow-hidden bg-gray-50 border-b border-gray-200">
           <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-70"></div>
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
@@ -44,7 +43,6 @@ const AboutPage = () => {
         </div>
 
         <main>
-          {/* --- LEADERSHIP SECTION (HIERARCHY) --- */}
           <section className="py-24 bg-white relative">
             <div className="container mx-auto px-4">
               <motion.div
@@ -63,10 +61,8 @@ const AboutPage = () => {
                 </p>
               </motion.div>
 
-              {/* HIERARCHY CONTAINER */}
               <div className="flex flex-col items-center gap-12 lg:gap-16">
 
-                {/* LEVEL 1: PRESIDENT (Centered & Slightly Larger) */}
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +86,6 @@ const AboutPage = () => {
 
                     <h3 className="text-3xl font-bold text-gray-900 mb-1">Francisco Branco</h3>
 
-                    {/* Role + LinkedIn */}
                     <div className="flex items-center justify-center gap-2 mb-6">
                       <p className="text-red-600 font-bold text-sm uppercase tracking-wider">President</p>
                       <span className="text-gray-300">|</span>
@@ -114,10 +109,8 @@ const AboutPage = () => {
                   </div>
                 </motion.div>
 
-                {/* LEVEL 2: VICE PRESIDENTS (Grid Side by Side) */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12 w-full max-w-5xl">
 
-                  {/* VP 1 */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +134,6 @@ const AboutPage = () => {
 
                       <h3 className="text-xl font-bold text-gray-900 mb-1">Daniel Silva</h3>
 
-                      {/* Role + LinkedIn */}
                       <div className="flex items-center justify-center gap-2 mb-4">
                         <p className="text-red-600 font-medium text-xs uppercase tracking-wider">Vice President</p>
                         <span className="text-gray-300">|</span>
@@ -161,7 +153,6 @@ const AboutPage = () => {
                     </div>
                   </motion.div>
 
-                  {/* VP 2 (NOVO CARD) */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -173,7 +164,6 @@ const AboutPage = () => {
                     <div className="relative bg-white border border-gray-100 rounded-[2rem] p-8 text-center shadow-lg hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300">
                       <div className="relative w-40 h-40 mx-auto mb-6">
                         <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
-                        {/* ATENÇÃO: Substituir 'vicepresidentImg' pela imagem do novo VP quando tiveres */}
                         <img
                           src={fotovicepresidente2}
                           alt="New VP Name"
@@ -186,7 +176,6 @@ const AboutPage = () => {
 
                       <h3 className="text-xl font-bold text-gray-900 mb-1">David Costa</h3>
 
-                      {/* Role + LinkedIn */}
                       <div className="flex items-center justify-center gap-2 mb-4">
                         <p className="text-red-600 font-medium text-xs uppercase tracking-wider">Vice President</p>
                         <span className="text-gray-300">|</span>
@@ -211,13 +200,11 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* --- ABOUT THE CLUB SECTION --- */}
           <section className="py-24 bg-gray-50 border-t border-gray-200">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-                  {/* Left Column: Text Content */}
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -258,7 +245,6 @@ const AboutPage = () => {
                     </div>
                   </motion.div>
 
-                  {/* Right Column: Image/Visual */}
                   <motion.div
                     initial={{ opacity: 0, x: 30 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -292,7 +278,6 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* --- CTA SECTION --- */}
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4 text-center">
               <div className="max-w-3xl mx-auto bg-gray-900 rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-2xl">

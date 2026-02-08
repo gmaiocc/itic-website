@@ -18,7 +18,6 @@ const Navbar = () => {
   const [isMobileDepartmentsOpen, setIsMobileDepartmentsOpen] = useState(false);
   const { user } = useAuth();
 
-  // Efeito para adicionar sombra/blur ao fazer scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -42,9 +41,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* LOGO & NOME */}
           <Link to="/" className="flex items-center space-x-3 group">
-            {/* Ícone com fundo VERMELHO */}
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-xl">
               <img src="/apple-touch-icon.png" alt="ITIC Logo" className="w-8 h-8" />
             </div>
@@ -58,12 +55,10 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* DESKTOP MENU */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link to="/" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Home</Link>
             <Link to="/about" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">About</Link>
 
-            {/* Departments Dropdown - CORRIGIDO O ESPAÇAMENTO */}
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -104,7 +99,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* MOBILE TOGGLE */}
           <button
             className="lg:hidden p-2 text-gray-900 hover:text-red-600 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
@@ -114,7 +108,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

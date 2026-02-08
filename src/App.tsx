@@ -20,6 +20,7 @@ import { AuthProvider } from "./context/AuthContext";
 import GalleryPage from "./pages/TeamPage";
 import AlumniPage from "./pages/AlumniPage";
 import FAQPage from "./pages/FAQPage";
+import StrategiesPage from "./pages/StrategiesPage";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/strategies" element={<StrategiesPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<DashboardPage />} />
             </Route>

@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-// Dados das Perguntas
 const faqs = [
   {
     category: "Recruitment",
@@ -58,7 +57,6 @@ const FAQPage = () => {
     setOpenIndex(openIndex === id ? null : id);
   };
 
-  // Filtragem simples
   const filteredFaqs = faqs.map(cat => ({
     ...cat,
     questions: cat.questions.filter(q => 
@@ -73,7 +71,6 @@ const FAQPage = () => {
         <Navbar />
         <main className="pt-20">
           
-          {/* --- HERO SECTION --- */}
           <section className="py-20 bg-gray-50 border-b border-gray-200">
             <div className="container mx-auto px-4 text-center">
               <motion.div
@@ -92,7 +89,6 @@ const FAQPage = () => {
                   Everything you need to know about joining and thriving at ITIC.
                 </p>
 
-                {/* Search Bar */}
                 <div className="relative max-w-md mx-auto">
                   <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
                   <Input 
@@ -106,7 +102,6 @@ const FAQPage = () => {
             </div>
           </section>
 
-          {/* --- FAQ CONTENT --- */}
           <section className="py-20">
             <div className="container mx-auto px-4 max-w-3xl">
               {filteredFaqs.length > 0 ? (
@@ -171,7 +166,6 @@ const FAQPage = () => {
             </div>
           </section>
 
-          {/* --- CTA SECTION --- */}
           <section className="py-20 bg-gray-900 text-white">
             <div className="container mx-auto px-4 text-center">
               <div className="max-w-2xl mx-auto">

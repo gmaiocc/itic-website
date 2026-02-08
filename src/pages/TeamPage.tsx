@@ -4,10 +4,8 @@ import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
 import { Camera, Calendar, MapPin, ArrowUpRight, Image as ImageIcon } from "lucide-react";
 
-// Imagem de fundo do Hero (Networking/Events)
 const GALLERY_HERO_BG = "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop";
 
-// Dados de Exemplo (Podes substituir pelas tuas fotos reais depois)
 const galleryPhotos = [
   {
     id: 1,
@@ -27,9 +25,7 @@ const GalleryPage = () => {
         
         <main>
           
-          {/* --- HERO SECTION --- */}
           <section className="relative pt-32 pb-20 overflow-hidden min-h-[60vh] flex items-center justify-center">
-            {/* Background */}
             <div className="absolute inset-0 z-0">
               <img src={GALLERY_HERO_BG} alt="Gallery Background" className="w-full h-full object-cover grayscale opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white" />
@@ -59,11 +55,9 @@ const GalleryPage = () => {
             </div>
           </section>
 
-          {/* --- GALLERY MASONRY GRID --- */}
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4">
               
-              {/* Masonry Layout using CSS Columns */}
               <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
                 
                 {galleryPhotos.map((photo, index) => (
@@ -77,17 +71,14 @@ const GalleryPage = () => {
                   >
                     <div className="group relative rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 bg-gray-100">
                       
-                      {/* Image */}
                       <img 
                         src={photo.image} 
                         alt={photo.title}
                         className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-110"
                       />
 
-                      {/* Overlay Gradient (Hidden by default, shown on hover) */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
                         
-                        {/* Content inside Overlay */}
                         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                           <div className="flex items-center justify-between mb-2">
                             <span className="inline-block px-2 py-1 rounded bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider">
@@ -109,7 +100,6 @@ const GalleryPage = () => {
                         </div>
                       </div>
 
-                      {/* Decorative Corner Icon (Optional) */}
                       <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <Camera className="w-4 h-4 text-white" />
                       </div>
@@ -120,7 +110,6 @@ const GalleryPage = () => {
 
               </div>
 
-              {/* End of Gallery Indicator */}
               <div className="text-center mt-20">
                 <p className="text-gray-400 text-sm uppercase tracking-widest">End of Gallery</p>
                 <div className="w-1 h-12 bg-gray-200 mx-auto mt-4 rounded-full" />

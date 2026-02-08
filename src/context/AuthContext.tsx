@@ -1,6 +1,5 @@
-// src/context/AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase'; // Certifica-te que o import aponta para o ficheiro criado acima
+import { supabase } from '@/lib/supabase';
 import { Session, User } from '@supabase/supabase-js';
 
 interface AuthContextType {
@@ -19,14 +18,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Verificar sessão inicial
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) checkRole(session.user.id);
       else setLoading(false);
     });
 
-    // 2. Escutar mudanças (Login/Logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) {
@@ -40,7 +37,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Função para ver na base de dados se é admin
   async function checkRole(userId: string) {
     try {
       const { data } = await supabase

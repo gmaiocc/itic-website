@@ -10,13 +10,11 @@ import researchImg from "@/assets/researchheadv2.png";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 
-// Imagem de fundo temática (Library/Data Center vibe)
 const RESEARCH_HERO_BG = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop";
 
 const ResearchPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Configuração do Globo (Estético)
   useEffect(() => {
     let phi = 0;
     let width = 0;
@@ -37,7 +35,7 @@ const ResearchPage = () => {
       diffuse: 1.2,
       mapSamples: 14000,
       mapBrightness: 6,
-      baseColor: [0.8, 0.1, 0.1], // Vermelho ITIC
+      baseColor: [0.8, 0.1, 0.1],
       markerColor: [0.8, 0.1, 0.1],
       glowColor: [1, 0.5, 0.5], 
       opacity: 0.6, 
@@ -100,21 +98,17 @@ const ResearchPage = () => {
         
         <main>
           
-          {/* --- HERO SECTION --- */}
           <section className="relative h-screen flex flex-col justify-center overflow-hidden">
             
-            {/* Background com Overlay */}
             <div className="absolute inset-0 z-0 pointer-events-none">
               <img src={RESEARCH_HERO_BG} alt="Global Data" className="w-full h-full object-cover grayscale opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/70" />
               <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-60 mix-blend-multiply"></div>
             </div>
 
-            {/* Conteúdo Central */}
             <div className="container mx-auto px-4 relative z-10 flex-grow flex flex-col justify-center pb-32">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 
-                {/* Texto */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -146,7 +140,6 @@ const ResearchPage = () => {
                   </div>
                 </motion.div>
 
-                {/* GLOBO DECORATIVO */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -171,7 +164,6 @@ const ResearchPage = () => {
               </div>
             </div>
 
-            {/* Scroll Button */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, y: [0, 10, 0] }}
@@ -185,7 +177,6 @@ const ResearchPage = () => {
               </div>
             </motion.div>
 
-            {/* Tech Stack Strip */}
             <div className="absolute bottom-0 w-full bg-gray-900 border-t border-gray-800 py-6 z-20">
                <div className="container mx-auto px-4">
                   <div className="flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-90">
@@ -200,7 +191,6 @@ const ResearchPage = () => {
             </div>
           </section>
 
-          {/* --- HEAD OF DEPARTMENT --- */}
           <section id="head-section" className="py-24 bg-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-50 rounded-full blur-[100px] opacity-60 pointer-events-none" />
             
@@ -269,7 +259,6 @@ const ResearchPage = () => {
             </div>
           </section>
 
-          {/* --- METHODOLOGY (PROCESS) --- */}
           <section className="py-24 bg-gray-50">
             <div className="container mx-auto px-4">
               <div className="text-center mb-16">
@@ -299,7 +288,6 @@ const ResearchPage = () => {
             </div>
           </section>
 
-          {/* --- ACTIVITIES GRID --- */}
           <section className="py-24 bg-white">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
@@ -328,7 +316,6 @@ const ResearchPage = () => {
             </div>
           </section>
 
-          {/* --- RECRUITMENT CALLOUT --- */}
           <section className="py-20 bg-gray-900 text-white">
             <div className="container mx-auto px-4 text-center">
               <div className="max-w-3xl mx-auto space-y-6">

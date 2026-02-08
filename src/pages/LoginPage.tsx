@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Lock, Mail, Loader2, ArrowRight, UserPlus, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Imagem de fundo (Abstract/Architecture)
 const LOGIN_BG = "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop";
 
 const LoginPage = () => {
@@ -20,7 +19,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -31,7 +30,6 @@ const LoginPage = () => {
     const cleanEmail = email.trim();
 
     if (isLogin) {
-      // --- LOGIN ---
       const { error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
         password,
@@ -40,8 +38,8 @@ const LoginPage = () => {
       if (error) {
         toast({
           title: "Erro no Login",
-          description: error.message === "Invalid login credentials" 
-            ? "Credenciais inválidas. Verifica o email e password." 
+          description: error.message === "Invalid login credentials"
+            ? "Credenciais inválidas. Verifica o email e password."
             : error.message,
           variant: "destructive",
         });
@@ -54,7 +52,6 @@ const LoginPage = () => {
       }
 
     } else {
-      // --- REGISTO ---
       const { error } = await supabase.auth.signUp({
         email: cleanEmail,
         password,
@@ -74,7 +71,7 @@ const LoginPage = () => {
         navigate("/dashboard");
       }
     }
-    
+
     setLoading(false);
   };
 
@@ -82,17 +79,15 @@ const LoginPage = () => {
     <PageTransition>
       <div className="min-h-screen bg-white flex flex-col">
         <Navbar />
-        
+
         <main className="flex-grow flex items-center justify-center relative pt-20 pb-10 overflow-hidden">
-          
-          {/* --- BACKGROUND --- */}
+
           <div className="absolute inset-0 z-0">
             <img src={LOGIN_BG} alt="Office Background" className="w-full h-full object-cover grayscale opacity-40" />
             <div className="absolute inset-0 bg-gradient-to-b from-white via-white/90 to-white/80" />
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-60 mix-blend-multiply"></div>
           </div>
 
-          {/* --- LOGIN CARD --- */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,8 +96,7 @@ const LoginPage = () => {
           >
             <Card className="border border-gray-200 shadow-2xl shadow-gray-200/50 bg-white rounded-3xl overflow-hidden">
               <CardHeader className="space-y-6 text-center pt-10 pb-2">
-                
-                {/* Ícone de Cabeçalho */}
+
                 <div className="mx-auto w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center border border-red-100 shadow-sm">
                   {isLogin ? (
                     <Lock className="w-8 h-8 text-red-600" />
@@ -122,8 +116,8 @@ const LoginPage = () => {
                       {isLogin ? "Welcome Back" : "Join the Club"}
                     </h2>
                     <p className="text-gray-500 text-sm mt-2">
-                      {isLogin 
-                        ? "Enter your credentials to access the dashboard." 
+                      {isLogin
+                        ? "Enter your credentials to access the dashboard."
                         : "Create an account to access exclusive reports."}
                     </p>
                   </motion.div>
@@ -132,8 +126,7 @@ const LoginPage = () => {
 
               <CardContent className="p-8">
                 <form onSubmit={handleAuth} className="space-y-5">
-                  
-                  {/* Email Input */}
+
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Email Address</Label>
                     <div className="relative group">
@@ -150,7 +143,6 @@ const LoginPage = () => {
                     </div>
                   </div>
 
-                  {/* Password Input */}
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Password</Label>
                     <div className="relative group">
@@ -167,10 +159,9 @@ const LoginPage = () => {
                       />
                     </div>
                   </div>
-                  
-                  {/* Submit Button */}
-                  <Button 
-                    type="submit" 
+
+                  <Button
+                    type="submit"
                     className="w-full h-12 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-base shadow-lg shadow-red-600/20 hover:shadow-red-600/30 transition-all mt-4 group"
                     disabled={loading}
                   >
@@ -185,7 +176,6 @@ const LoginPage = () => {
                   </Button>
                 </form>
 
-                {/* Footer Switcher */}
                 <div className="mt-8 text-center">
                   <p className="text-sm text-gray-500">
                     {isLogin ? "Don't have an account? " : "Already have an account? "}
@@ -203,7 +193,7 @@ const LoginPage = () => {
             </Card>
           </motion.div>
         </main>
-        
+
         <Footer />
       </div>
     </PageTransition>

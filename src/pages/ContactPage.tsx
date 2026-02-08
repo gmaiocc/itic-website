@@ -9,9 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import emailjs from "@emailjs/browser"; // <--- IMPORTANTE
+import emailjs from "@emailjs/browser";
 
-// Imagem de fundo temática
 const CONTACT_HERO_BG = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop";
 
 const ContactPage = () => {
@@ -35,18 +34,15 @@ const ContactPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // --- CONFIGURAÇÃO DO EMAILJS ---
-    // Substitui estes valores pelos do teu painel EmailJS
     const SERVICE_ID = "YOUR_SERVICE_ID"; 
     const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
     const PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 
-    // Mapeamento dos dados para o Template do EmailJS
     const templateParams = {
-      from_name: formData.name,  // No template usar {{from_name}}
-      reply_to: formData.email,  // No template usar {{reply_to}}
-      subject: formData.subject, // No template usar {{subject}}
-      message: formData.message, // No template usar {{message}}
+      from_name: formData.name,
+      reply_to: formData.email, 
+      subject: formData.subject,
+      message: formData.message, 
     };
 
     try {
@@ -55,10 +51,9 @@ const ContactPage = () => {
       toast({
         title: "Message sent successfully!",
         description: "We will get back to you shortly.",
-        variant: "default", // Verde/Sucesso
+        variant: "default",
       });
 
-      // Limpar formulário
       setFormData({ name: "", email: "", subject: "", message: "" });
 
     } catch (error) {
@@ -66,7 +61,7 @@ const ContactPage = () => {
       toast({
         title: "Error sending message",
         description: "Please try again later or email us directly.",
-        variant: "destructive", // Vermelho/Erro
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -80,9 +75,7 @@ const ContactPage = () => {
         
         <main>
           
-          {/* --- HERO SECTION --- */}
           <section className="relative pt-32 pb-24 overflow-hidden min-h-[50vh] flex items-center justify-center">
-            {/* Background */}
             <div className="absolute inset-0 z-0">
               <img src={CONTACT_HERO_BG} alt="Contact Support" className="w-full h-full object-cover grayscale opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white" />
@@ -113,12 +106,10 @@ const ContactPage = () => {
             </div>
           </section>
 
-          {/* --- CONTACT CONTENT --- */}
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4">
               <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto items-start">
                 
-                {/* Left Column: Info Cards */}
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -134,18 +125,16 @@ const ContactPage = () => {
                   </div>
 
                   <div className="grid gap-6">
-                    {/* Email Card */}
                     <a href="mailto:itic@iscte-iul.pt" className="flex items-center gap-6 p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:border-red-200 hover:shadow-lg hover:shadow-red-900/5 transition-all group">
                       <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                         <Mail className="w-6 h-6 text-red-600" />
                       </div>
                       <div>
                         <p className="font-bold text-gray-900 text-lg">Email Us</p>
-                        <p className="text-gray-500 group-hover:text-red-600 transition-colors">itic@iscte-iul.pt</p>
+                        <p className="text-gray-500 group-hover:text-red-600 transition-colors">global@itic-iscte.com</p>
                       </div>
                     </a>
 
-                    {/* Location Card */}
                     <div className="flex items-center gap-6 p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:border-red-200 transition-all">
                       <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-sm">
                         <MapPin className="w-6 h-6 text-red-600" />
@@ -156,7 +145,6 @@ const ContactPage = () => {
                       </div>
                     </div>
 
-                    {/* Socials Grid */}
                     <div className="grid grid-cols-2 gap-6">
                       <a 
                         href="https://instagram.com/itic_ibs" 
@@ -183,7 +171,6 @@ const ContactPage = () => {
                   </div>
                 </motion.div>
 
-                {/* Right Column: Contact Form */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -205,7 +192,7 @@ const ContactPage = () => {
                         <Input
                           id="name"
                           name="name"
-                          placeholder="John Doe"
+                          placeholder="André Silva"
                           value={formData.name}
                           onChange={handleChange}
                           required
@@ -218,7 +205,7 @@ const ContactPage = () => {
                           id="email"
                           name="email"
                           type="email"
-                          placeholder="john@example.com"
+                          placeholder="andresilva@iscte-iul.pt"
                           value={formData.email}
                           onChange={handleChange}
                           required
@@ -232,7 +219,7 @@ const ContactPage = () => {
                       <Input
                         id="subject"
                         name="subject"
-                        placeholder="Partnership / Recruitment / General Inquiry"
+                        placeholder="Recruitment"
                         value={formData.subject}
                         onChange={handleChange}
                         required
@@ -272,7 +259,6 @@ const ContactPage = () => {
             </div>
           </section>
 
-          {/* --- MAP PLACEHOLDER --- */}
           <section className="h-[400px] w-full bg-gray-100 relative grayscale opacity-80 border-t border-gray-200">
              <iframe 
                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3112.593895240263!2d-9.155799623432777!3d38.74902265670732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1933017dca3263%3A0x867375a03780373f!2sISCTE%20-%20Instituto%20Universit%C3%A1rio%20de%20Lisboa!5e0!3m2!1spt-PT!2spt!4v1709230000000!5m2!1spt-PT!2spt" 

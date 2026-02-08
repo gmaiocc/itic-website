@@ -13,10 +13,8 @@ import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
-// Imagem de fundo do Hero
 const REPORTS_HERO_BG = "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2070&auto=format&fit=crop";
 
-// Imagem de segurança caso tudo falhe (Cinza abstrato)
 const SAFE_FALLBACK_IMG = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000";
 
 const ReportsPage = () => {
@@ -43,23 +41,17 @@ const ReportsPage = () => {
     }
   }
 
-  // --- FALLBACK IMAGES (URLs Atualizados e mais estáveis) ---
   const getFallbackCover = (category: string) => {
     switch(category) {
       case 'Trading': 
-        // Gráficos financeiros / Ecrãs
         return "https://images.unsplash.com/photo-1611974765270-ca12586343bb?auto=format&fit=crop&q=80&w=1000";
       case 'Asset Management': 
-        // Edifícios financeiros / Wall Street vibe
         return "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=1000";
       case 'Research': 
-        // Documentos / Escrita / Análise
         return "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000";
       case 'Operations': 
-        // Reunião de equipa / Planeamento
         return "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1000";
       default: 
-        // Genérico (Moedas/Gráficos)
         return "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&q=80&w=1000";
     }
   };
@@ -89,7 +81,6 @@ const ReportsPage = () => {
       <div className="min-h-screen bg-white flex flex-col">
         <Navbar />
 
-        {/* --- HERO SECTION --- */}
         <section className="relative pt-32 pb-24 overflow-hidden min-h-[50vh] flex items-center justify-center">
           <div className="absolute inset-0 z-0">
             <img src={REPORTS_HERO_BG} alt="Market Analysis" className="w-full h-full object-cover grayscale opacity-30" />
@@ -120,12 +111,10 @@ const ReportsPage = () => {
           </div>
         </section>
 
-        {/* --- CONTENT SECTION --- */}
         <section className="py-12 bg-white flex-grow">
           <div className="container mx-auto px-4 max-w-7xl">
             
             <Tabs defaultValue="All" className="w-full space-y-12">
-              {/* Filter Tabs */}
               <div className="flex justify-center">
                 <TabsList className="inline-flex h-auto flex-wrap justify-center p-1 bg-gray-100/50 rounded-full gap-2 border border-gray-200">
                   {["All", "Trading", "Asset Management", "Research", "Operations"].map((tab) => (
@@ -146,7 +135,6 @@ const ReportsPage = () => {
                 <TabsContent key={tab} value={tab} className="mt-0">
                   
                   {loading ? (
-                    /* SKELETON LOADING STATE */
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {[1, 2, 3].map((i) => (
                         <div key={i} className="h-96 rounded-2xl bg-gray-100 animate-pulse border border-gray-200" />
@@ -162,7 +150,6 @@ const ReportsPage = () => {
                       {reports
                         .filter((r) => tab === "All" || r.category === tab)
                         .map((report, index) => {
-                          // LÓGICA DE CAPA SEGURA
                           const coverImage = report.cover_url ? report.cover_url : getFallbackCover(report.category || 'Default');
                           const categoryColor = getCategoryColor(report.category);
 
@@ -170,19 +157,16 @@ const ReportsPage = () => {
                             <motion.div key={report.id || index} variants={itemVariants}>
                               <Card className="group h-full flex flex-col justify-between border border-gray-200 bg-white hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-500 rounded-2xl overflow-hidden hover:-translate-y-1">
                                 
-                                {/* --- CAPA VISUAL (THUMBNAIL) --- */}
                                 <div className="relative h-48 w-full overflow-hidden bg-gray-100">
                                   <div className="absolute inset-0 bg-gray-900/10 group-hover:bg-gray-900/0 transition-colors z-10" />
                                   <img 
                                     src={coverImage} 
                                     alt="Report Cover" 
                                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                    // PROTEÇÃO EXTRA: Se a imagem falhar, carrega o fallback seguro
                                     onError={(e) => {
                                       e.currentTarget.src = SAFE_FALLBACK_IMG;
                                     }}
                                   />
-                                  {/* Badge de Categoria */}
                                   <div className="absolute top-4 left-4 z-20">
                                     <Badge className={`${categoryColor} text-white hover:${categoryColor} border-none px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-lg`}>
                                       {report.category || 'General'}
@@ -225,7 +209,6 @@ const ReportsPage = () => {
                           );
                         })}
                         
-                      {/* EMPTY STATE */}
                       {!loading && reports.filter((r) => tab === "All" || r.category === tab).length === 0 && (
                         <div className="col-span-full py-20 text-center">
                           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100">

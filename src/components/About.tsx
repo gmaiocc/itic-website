@@ -2,7 +2,6 @@ import { Target, Users, Lightbulb, Award, BarChart2, PieChart, Search, Globe, Ch
 import { motion } from "framer-motion";
 
 const About = () => {
-  // Dados dos Departamentos (Agora com tema Vermelho/Cinza)
   const departments = [
     {
       title: "Trading",
@@ -30,7 +29,6 @@ const About = () => {
     },
   ];
 
-  // Dados de "Why Join Us"
   const benefits = [
     {
       icon: TrendingUp,
@@ -51,13 +49,8 @@ const About = () => {
 
   return (
     <section className="py-24 bg-white relative overflow-hidden" id="about">
-
-      {/* Background Grid Subtil (Igual ao Hero para consistência) */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* --- HEADER: MISSÃO & VALORES --- */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -105,7 +98,6 @@ const About = () => {
           </motion.div>
         </div>
 
-        {/* --- SECÇÃO DEPARTAMENTOS --- */}
         <div className="mb-24">
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <h3 className="text-3xl font-heading font-bold text-gray-900 mb-4">Our Ecosystem</h3>
@@ -137,7 +129,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* --- SECÇÃO EXTRA: WHY JOIN US --- */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -145,7 +136,6 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden"
         >
-          {/* Decorative gradients */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-600/20 blur-[100px] rounded-full pointer-events-none translate-x-1/2 -translate-y-1/2" />
 
           <div className="relative z-10">

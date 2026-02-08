@@ -29,7 +29,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
 
-// --- TIPOS ---
 type Profile = {
   id: string;
   email: string;
@@ -66,11 +65,9 @@ type PublicReport = {
   created_at: string;
 };
 
-// --- FUNÇÕES AUXILIARES ---
 const isAdminPosition = (position: string | undefined) => ['President', 'Vice-President', 'Head'].includes(position || '');
 const isSuperAdminPosition = (position: string | undefined) => ['President', 'Vice-President'].includes(position || '');
 
-// Ícones baseados no tipo de ficheiro
 const getFileIcon = (type: string) => {
   if (type.includes('pdf')) return <FileText className="w-5 h-5 text-red-500" />;
   if (type.includes('xls') || type.includes('csv') || type.includes('sheet')) return <FileSpreadsheet className="w-5 h-5 text-green-500" />;
@@ -80,7 +77,6 @@ const getFileIcon = (type: string) => {
   return <File className="w-5 h-5 text-gray-400" />;
 };
 
-// --- 1. OVERVIEW (ATUALIZADO) ---
 const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile: Profile | null, setActiveTab: (tab: string) => void }) => {
   const navigate = useNavigate();
   const [recentFiles, setRecentFiles] = useState<RepoFile[]>([]);
@@ -95,7 +91,6 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
 
   return (
     <div className="space-y-8">
-      {/* Welcome Banner */}
       <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-8 md:p-10 shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -114,7 +109,6 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
         </div>
       </div>
 
-      {/* Quick Stats Grid */}
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="hover:shadow-lg transition-all border-l-4 border-l-red-500 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -150,10 +144,8 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
         </Card>
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid lg:grid-cols-2 gap-8">
         
-        {/* LEFT: Quick Actions */}
         <div className="space-y-4">
            <h3 className="text-lg font-bold text-gray-900 ml-1">Quick Actions</h3>
            <Card 
@@ -183,7 +175,6 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
            </Card>
         </div>
 
-        {/* RIGHT: Recent Uploads */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-gray-900 ml-1">Recent Uploads</h3>
           <Card className="border-gray-200 shadow-sm h-full">
@@ -220,7 +211,6 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
   );
 };
 
-// --- 2. GESTÃO DE DEPARTAMENTO ---
 const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   const [members, setMembers] = useState<Profile[]>([]);
   const [whitelisted, setWhitelisted] = useState<any[]>([]);
@@ -434,7 +424,6 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
         </CardContent>
       </Card>
 
-      {/* Edit Dialog (Hidden logic) */}
       <Dialog open={!!editingMember} onOpenChange={(open) => !open && setEditingMember(null)}>
         <DialogContent>
           <DialogHeader><DialogTitle>Edit Member</DialogTitle></DialogHeader>
@@ -461,7 +450,6 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   );
 };
 
-// --- 3. REPOSITÓRIO AVANÇADO (ATUALIZADO COM E-BOOKS) ---
 const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | null, isAdmin: boolean }) => {
   const [files, setFiles] = useState<RepoFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -526,7 +514,6 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-140px)]">
-      {/* Sidebar Filters */}
       <Card className="w-full lg:w-72 h-fit flex-shrink-0 bg-white border-gray-200 shadow-sm">
         <CardHeader className="pb-4"><CardTitle className="text-base flex items-center gap-2 font-bold"><Filter className="w-4 h-4" /> Filters</CardTitle></CardHeader>
         <CardContent className="space-y-5">
@@ -568,7 +555,6 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
         </CardContent>
       </Card>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col gap-6 overflow-hidden">
         <div className="flex justify-between items-center">
           <div><h2 className="text-2xl font-bold tracking-tight">Internal Repository</h2><p className="text-muted-foreground">{filteredFiles.length} files available.</p></div>
@@ -650,7 +636,6 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
   );
 };
 
-// --- 4. ADMIN CMS ---
 const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
   const [publicReports, setPublicReports] = useState<PublicReport[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -783,7 +768,6 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
   );
 };
 
-// --- 5. PERFIL PRO ---
 const ProfileSettings = ({ profile, user, signOut, refreshProfile }: { profile: Profile | null, user: any, signOut: () => void, refreshProfile: () => void }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -838,7 +822,6 @@ const ProfileSettings = ({ profile, user, signOut, refreshProfile }: { profile: 
   );
 }
 
-// --- MAIN DASHBOARD PAGE ---
 export default function DashboardPage() {
   const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();

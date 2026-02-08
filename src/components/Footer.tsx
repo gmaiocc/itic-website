@@ -7,7 +7,6 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-          {/* Brand Column */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-heading font-bold text-primary-foreground text-xl">
@@ -21,11 +20,10 @@ const Footer = () => {
             <div className="flex gap-4">
               <SocialLink href="https://linkedin.com/company/iticiscte" icon={Linkedin} />
               <SocialLink href="https://instagram.com/itic_ibs" icon={Instagram} />
-              <SocialLink href="mailto:itic@iscte-iul.pt" icon={Mail} />
+              <SocialLink href="mailto:global@itic-iscte.com" icon={Mail} />
             </div>
           </div>
 
-          {/* Navigation - Adicionado Alumni e FAQ */}
           <div>
             <h4 className="font-bold mb-6 text-gray-900">Club</h4>
             <ul className="space-y-3 text-sm text-gray-500">
@@ -37,7 +35,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Departments */}
           <div>
             <h4 className="font-bold mb-6 text-gray-900">Departments</h4>
             <ul className="space-y-3 text-sm text-gray-500">
@@ -48,7 +45,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Location / Newsletter CTA */}
           <div>
             <h4 className="font-bold mb-6 text-gray-900">Visit Us</h4>
             <div className="flex items-start gap-3 text-sm text-gray-500 mb-8">
@@ -60,7 +56,6 @@ const Footer = () => {
               </p>
             </div>
 
-            {/* Quick Login Link */}
             <Link to="/login" className="inline-flex items-center text-sm font-semibold text-red-600 hover:text-red-700 group">
               Member Portal <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
