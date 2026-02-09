@@ -33,8 +33,6 @@ const topAssets = [
     { symbol: "NVDA", name: "NVIDIA Corp.", weight: "12.5%" },
     { symbol: "MSFT", name: "Microsoft", weight: "10.2%" },
     { symbol: "GOOGL", name: "Alphabet Inc.", weight: "8.1%" },
-    { symbol: "LLY", name: "Eli Lilly", weight: "6.5%" },
-    { symbol: "Cash", name: "USD Liquidity", weight: "5.0%" },
 ];
 
 const AnimatedNumber = ({ value, suffix = "", isPercentage = false, decimals = 2 }: { value: number, suffix?: string, isPercentage?: boolean, decimals?: number }) => {
@@ -110,8 +108,7 @@ const StrategiesPage = () => {
                                     Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800">Strategies</span>
                                 </h1>
                                 <p className="text-xl text-gray-600 leading-relaxed font-light max-w-2xl mx-auto">
-                                    Transparent tracking of our Asset Management and Trading portfolios.
-                                    We benchmark against the S&P 500 to ensure we deliver real alpha.
+                                    ...
                                 </p>
                             </motion.div>
                         </div>
@@ -125,10 +122,10 @@ const StrategiesPage = () => {
                                 <div className="flex justify-center mb-10">
                                     <TabsList className="bg-slate-100 p-1 rounded-full border border-slate-200">
                                         <TabsTrigger value="am" className="rounded-full px-8 py-2.5 text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-red-700 data-[state=active]:shadow-md transition-all">
-                                            Asset Management (Long-Only)
+                                            Asset Management 
                                         </TabsTrigger>
                                         <TabsTrigger value="quant" className="rounded-full px-8 py-2.5 text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-red-700 data-[state=active]:shadow-md transition-all">
-                                            Quant Strategies (Alpha)
+                                            Quant Strategies
                                         </TabsTrigger>
                                     </TabsList>
                                 </div>
@@ -312,7 +309,7 @@ const StrategiesPage = () => {
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-700">Quant Strategy Under Development</h3>
                                         <p className="text-sm text-gray-500 mt-2 max-w-md text-center">
-                                            We are currently backtesting our algorithmic models. Live performance data will be available in Q4 2024.
+                                            We are currently backtesting our algorithmic models.
                                         </p>
                                     </div>
                                 </TabsContent>
@@ -322,13 +319,6 @@ const StrategiesPage = () => {
                             <div className="mt-16 p-6 bg-gray-50 rounded-xl border border-gray-200 flex gap-4 items-start shadow-inner">
                                 <AlertCircle className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
                                 <div className="space-y-2">
-                                    <h4 className="text-sm font-bold text-gray-900">Important Disclaimer</h4>
-                                    <p className="text-xs text-gray-500 leading-relaxed text-justify">
-                                        The performance data shown above represents a model portfolio managed by the ITIC Asset Management department for educational purposes.
-                                        It does not represent actual client accounts, real money trading, or a solicitation to invest.
-                                        Past performance is not indicative of future results. All financial metrics are calculated based on historical data and hypothetical execution prices.
-                                        The "Benchmark" refers to the SPDR S&P 500 ETF Trust (SPY).
-                                    </p>
                                 </div>
                             </div>
 
