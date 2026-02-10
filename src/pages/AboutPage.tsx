@@ -9,6 +9,7 @@ import vicepresident2Img from "@/assets/vicepresident2.png";
 import fotopresidente from "@/assets/fotopresidente.png";
 import fotovicepresidente1 from "@/assets/fotovicepresidente1.png";
 import fotovicepresidente2 from "@/assets/fotovicepresidente2.png";
+import fotovicepresidente222 from "@/assets/fotovicepresidente222.png";
 import aboutpageImg from "@/assets/aboutpage.jpg";
 
 const AboutPage = () => {
@@ -165,7 +166,7 @@ const AboutPage = () => {
                       <div className="relative w-40 h-40 mx-auto mb-6">
                         <div className="absolute inset-0 bg-red-100 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
                         <img
-                          src={fotovicepresidente2}
+                          src={fotovicepresidente222}
                           alt="New VP Name"
                           className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-md"
                         />
