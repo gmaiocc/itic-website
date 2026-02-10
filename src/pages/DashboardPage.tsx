@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard, FolderOpen, Users, Settings, LogOut,
   ShieldAlert, FileText, UploadCloud, Download, Menu,
-  Trash2, Edit, Save, Camera, Link as LinkIcon, Briefcase, Plus, UserPlus, Search, Filter, FileSpreadsheet, File, Eye, EyeOff, X, Check, MoreVertical, ArrowRight, Book, Presentation, FileCode
+  Trash2, Edit, Save, Camera, Link as LinkIcon, Briefcase, Plus, UserPlus, Search, Filter, FileSpreadsheet, File, Eye, EyeOff, X, Check, MoreVertical, ArrowRight, Book, Presentation, FileCode, AlertTriangle, Image as ImageIcon
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/AuthContext";
@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose
 } from "@/components/ui/dialog";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
@@ -29,6 +29,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
 
+// --- TIPOS ---
 type Profile = {
   id: string;
   email: string;
@@ -52,7 +53,11 @@ type RepoFile = {
   department: string;
   file_path: string;
   file_type: string;
+  cover_url?: string;
   created_at: string;
+  profiles?: {
+    full_name: string;
+  } | null;
 };
 
 type PublicReport = {
@@ -65,32 +70,47 @@ type PublicReport = {
   created_at: string;
 };
 
+// --- FUNÇÕES AUXILIARES ---
 const isAdminPosition = (position: string | undefined) => ['President', 'Vice-President', 'Head'].includes(position || '');
 const isSuperAdminPosition = (position: string | undefined) => ['President', 'Vice-President'].includes(position || '');
 
-const getFileIcon = (type: string) => {
-  if (type.includes('pdf')) return <FileText className="w-5 h-5 text-red-500" />;
-  if (type.includes('xls') || type.includes('csv') || type.includes('sheet')) return <FileSpreadsheet className="w-5 h-5 text-green-500" />;
-  if (type.includes('ppt') || type.includes('slide')) return <Presentation className="w-5 h-5 text-orange-500" />;
-  if (type.includes('py') || type.includes('js') || type.includes('html')) return <FileCode className="w-5 h-5 text-blue-500" />;
-  if (type.includes('epub') || type.includes('mobi')) return <Book className="w-5 h-5 text-purple-500" />;
-  return <File className="w-5 h-5 text-gray-400" />;
+const getFileIcon = (type: string, className = "w-5 h-5") => {
+  if (type.includes('pdf')) return <FileText className={`${className} text-red-500`} />;
+  if (type.includes('xls') || type.includes('csv') || type.includes('sheet')) return <FileSpreadsheet className={`${className} text-green-500`} />;
+  if (type.includes('ppt') || type.includes('slide')) return <Presentation className={`${className} text-orange-500`} />;
+  if (type.includes('py') || type.includes('js') || type.includes('html')) return <FileCode className={`${className} text-blue-500`} />;
+  if (type.includes('epub') || type.includes('mobi')) return <Book className={`${className} text-purple-500`} />;
+  return <File className={`${className} text-gray-400`} />;
 };
 
+// --- 1. OVERVIEW ---
 const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile: Profile | null, setActiveTab: (tab: string) => void }) => {
   const navigate = useNavigate();
   const [recentFiles, setRecentFiles] = useState<RepoFile[]>([]);
 
   useEffect(() => {
     async function fetchRecent() {
-      const { data } = await supabase.from('repository_files').select('*').order('created_at', { ascending: false }).limit(4);
-      if (data) setRecentFiles(data);
+      try {
+        const { data, error } = await supabase
+          .from('repository_files')
+          .select('*, profiles(full_name)')
+          .order('created_at', { ascending: false })
+          .limit(4);
+        
+        if (error) throw error;
+        setRecentFiles(data);
+      } catch (err) {
+        console.warn("Retrying fetch without join:", err);
+        const { data } = await supabase.from('repository_files').select('*').order('created_at', { ascending: false }).limit(4);
+        if (data) setRecentFiles(data);
+      }
     }
     fetchRecent();
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full">
+      {/* Welcome Banner */}
       <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-8 md:p-10 shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -109,6 +129,7 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
         </div>
       </div>
 
+      {/* Quick Stats Grid */}
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="hover:shadow-lg transition-all border-l-4 border-l-red-500 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -144,8 +165,10 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
         </Card>
       </div>
 
+      {/* Main Content Grid */}
       <div className="grid lg:grid-cols-2 gap-8">
         
+        {/* Quick Actions */}
         <div className="space-y-4">
            <h3 className="text-lg font-bold text-gray-900 ml-1">Quick Actions</h3>
            <Card 
@@ -175,6 +198,7 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
            </Card>
         </div>
 
+        {/* Recent Uploads */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-gray-900 ml-1">Recent Uploads</h3>
           <Card className="border-gray-200 shadow-sm h-full">
@@ -184,12 +208,19 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
                   {recentFiles.map((file) => (
                     <div key={file.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg">{getFileIcon(file.file_type)}</div>
-                        <div>
+                        <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                          {file.cover_url ? (
+                            <img src={file.cover_url} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            getFileIcon(file.file_type)
+                          )}
+                        </div>
+                        <div className="min-w-0">
                           <p className="text-sm font-semibold text-gray-900 line-clamp-1">{file.title}</p>
-                          <p className="text-xs text-gray-500 flex items-center gap-1">
-                            {file.department} • {format(new Date(file.created_at), 'MMM d')}
-                          </p>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Badge variant="secondary" className="text-[10px] h-5 px-1">{file.department}</Badge>
+                            <span className="truncate">by {file.profiles?.full_name || "Unknown"}</span>
+                          </div>
                         </div>
                       </div>
                       <Button variant="ghost" size="sm" onClick={() => setActiveTab('repository')}>View</Button>
@@ -205,12 +236,12 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
             </CardFooter>
           </Card>
         </div>
-
       </div>
     </div>
   );
 };
 
+// --- 2. GESTÃO DE DEPARTAMENTO ---
 const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   const [members, setMembers] = useState<Profile[]>([]);
   const [whitelisted, setWhitelisted] = useState<any[]>([]);
@@ -315,10 +346,10 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">{isSuperAdmin ? "Global Team Management" : `${myDept} Management`}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">{isSuperAdmin ? "Global Team Management" : `${myDept} Department`}</h2>
           <p className="text-muted-foreground">Manage your department members and pre-approve new signups.</p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
@@ -450,6 +481,7 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
   );
 };
 
+// --- 3. REPOSITÓRIO AVANÇADO ---
 const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | null, isAdmin: boolean }) => {
   const [files, setFiles] = useState<RepoFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -460,14 +492,35 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [editMode, setEditMode] = useState<RepoFile | null>(null);
-  const [formData, setFormData] = useState({ title: "", description: "", category: "General", department: "Global", file: null as File | null });
+  const [fileToDelete, setFileToDelete] = useState<RepoFile | null>(null);
+  
+  const [formData, setFormData] = useState({ 
+    title: "", 
+    description: "", 
+    category: "General", 
+    department: userProfile?.department || "Global", 
+    file: null as File | null,
+    cover: null as File | null 
+  });
 
   useEffect(() => { fetchFiles(); if (userProfile?.department) setFilterDept(userProfile.department); }, [userProfile]);
 
   async function fetchFiles() {
-    const { data, error } = await supabase.from('repository_files').select('*').order('created_at', { ascending: false });
-    if (!error) setFiles(data as RepoFile[]);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from('repository_files')
+        .select('*, profiles(full_name)')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setFiles(data as RepoFile[]);
+    } catch (err) {
+      console.warn("Fetch fallback", err);
+      const { data } = await supabase.from('repository_files').select('*').order('created_at', { ascending: false });
+      if (data) setFiles(data as RepoFile[]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handleDownload(filePath: string) {
@@ -481,6 +534,8 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
     try {
       let filePath = editMode ? editMode.file_path : "";
       let fileType = editMode ? editMode.file_type : "unknown";
+      let coverUrl = editMode ? editMode.cover_url : null;
+
       if (formData.file) {
         const fileExt = formData.file.name.split('.').pop();
         const fileName = `${Date.now()}_${Math.random()}.${fileExt}`;
@@ -488,32 +543,69 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
         if (uploadErr) throw uploadErr;
         filePath = uploadData.path; fileType = fileExt || "unknown";
       }
-      const payload = { title: formData.title, description: formData.description, category: formData.category, department: formData.department };
+
+      if (formData.cover) {
+        const coverExt = formData.cover.name.split('.').pop();
+        const coverName = `covers/${Date.now()}_${Math.random()}.${coverExt}`;
+        const { error: coverErr, data: coverData } = await supabase.storage.from('club-repository').upload(coverName, formData.cover);
+        if (coverErr) throw coverErr;
+        
+        const { data: publicUrlData } = supabase.storage.from('club-repository').getPublicUrl(coverName);
+        coverUrl = publicUrlData.publicUrl;
+      }
+      
+      const payload = { 
+        title: formData.title, 
+        description: formData.description, 
+        category: formData.category, 
+        department: formData.department, 
+        profile_id: userProfile?.id,
+        cover_url: coverUrl
+      };
+      
       if (formData.file) Object.assign(payload, { file_path: filePath, file_type: fileType });
 
       if (editMode) await supabase.from('repository_files').update(payload).eq('id', editMode.id);
       else await supabase.from('repository_files').insert({ ...payload, file_path: filePath, file_type: fileType });
 
-      toast({ title: "Success!" }); setIsModalOpen(false); setEditMode(null); fetchFiles();
-    } catch (error: any) { toast({ title: "Error", description: error.message, variant: "destructive" }); }
-    finally { setIsUploading(false); }
+      toast({ title: "Success!" });
+      setIsModalOpen(false);
+      setEditMode(null);
+      setFilterDept("All");
+      setFilterCategory("All");
+      fetchFiles();
+    } catch (error: any) { 
+      toast({ title: "Error", description: error.message, variant: "destructive" }); 
+      console.error(error);
+    } finally { 
+      setIsUploading(false); 
+    }
   }
 
-  async function handleDelete(file: RepoFile) {
-    if (!confirm("Are you sure?")) return;
-    await supabase.storage.from('club-repository').remove([file.file_path]);
-    await supabase.from('repository_files').delete().eq('id', file.id);
-    fetchFiles();
+  async function confirmDelete() {
+    if (!fileToDelete) return;
+    try {
+      await supabase.storage.from('club-repository').remove([fileToDelete.file_path]);
+      await supabase.from('repository_files').delete().eq('id', fileToDelete.id);
+      toast({ title: "File deleted successfully" });
+      fetchFiles();
+    } catch (error) {
+      toast({ title: "Error deleting file", variant: "destructive" });
+    } finally {
+      setFileToDelete(null);
+    }
   }
 
   const filteredFiles = files.filter(f => {
-    return f.title.toLowerCase().includes(search.toLowerCase()) &&
-      (filterCategory === "All" || f.category === filterCategory) &&
-      (filterDept === "All" || f.department === filterDept);
+    const matchesSearch = f.title.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = filterCategory === "All" || f.category === filterCategory;
+    const matchesDept = filterDept === "All" ? true : f.department === filterDept;
+    return matchesSearch && matchesCategory && matchesDept;
   });
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-140px)]">
+    <div className="flex flex-col lg:flex-row gap-8 h-full min-h-[calc(100vh-140px)] w-full">
+      {/* Sidebar Filters */}
       <Card className="w-full lg:w-72 h-fit flex-shrink-0 bg-white border-gray-200 shadow-sm">
         <CardHeader className="pb-4"><CardTitle className="text-base flex items-center gap-2 font-bold"><Filter className="w-4 h-4" /> Filters</CardTitle></CardHeader>
         <CardContent className="space-y-5">
@@ -524,7 +616,7 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
             <Select value={filterDept} onValueChange={setFilterDept}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="All">All</SelectItem>
+                <SelectItem value="All">All Departments</SelectItem>
                 <SelectItem value="Global">Global</SelectItem>
                 <SelectItem value="Trading">Trading</SelectItem>
                 <SelectItem value="Asset Management">Asset Management</SelectItem>
@@ -555,12 +647,29 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
         </CardContent>
       </Card>
 
-      <div className="flex-1 flex flex-col gap-6 overflow-hidden">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col gap-6 overflow-hidden w-full">
         <div className="flex justify-between items-center">
           <div><h2 className="text-2xl font-bold tracking-tight">Internal Repository</h2><p className="text-muted-foreground">{filteredFiles.length} files available.</p></div>
           {isAdmin && (
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-              <DialogTrigger asChild><Button onClick={() => { setEditMode(null); setFormData({ title: "", description: "", category: "General", department: "Global", file: null }); }} className="bg-black text-white hover:bg-gray-800"><Plus className="w-4 h-4 mr-2" /> Upload File</Button></DialogTrigger>
+              
+              <DialogTrigger asChild>
+                <Button onClick={() => { 
+                  setEditMode(null); 
+                  setFormData({ 
+                    title: "", 
+                    description: "", 
+                    category: "General", 
+                    department: userProfile?.department || "Global", 
+                    file: null,
+                    cover: null
+                  }); 
+                }} className="bg-black text-white hover:bg-gray-800">
+                  <Plus className="w-4 h-4 mr-2" /> Upload File
+                </Button>
+              </DialogTrigger>
+
               <DialogContent>
                 <DialogHeader><DialogTitle>{editMode ? "Edit File" : "Upload File"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 py-4">
@@ -591,11 +700,29 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
                         <SelectItem value="Trading">Trading</SelectItem>
                         <SelectItem value="Asset Management">Asset Management</SelectItem>
                         <SelectItem value="Research">Research</SelectItem>
+                        <SelectItem value="Operations">Operations</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   
-                  <Input type="file" onChange={e => setFormData({ ...formData, file: e.target.files?.[0] || null })} required={!editMode} />
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-gray-500">File</Label>
+                    <Input type="file" onChange={e => setFormData({ ...formData, file: e.target.files?.[0] || null })} required={!editMode} />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-gray-500">Cover Image (Optional)</Label>
+                    <div className="relative">
+                      <Input 
+                        type="file" 
+                        accept="image/*" 
+                        className="pl-10"
+                        onChange={e => setFormData({ ...formData, cover: e.target.files?.[0] || null })} 
+                      />
+                      <ImageIcon className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                    </div>
+                  </div>
+
                   <Button type="submit" disabled={isUploading} className="w-full bg-red-600 hover:bg-red-700 text-white">{isUploading ? "Uploading..." : "Save"}</Button>
                 </form>
               </DialogContent>
@@ -607,22 +734,53 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {filteredFiles.map((file) => (
               <Card key={file.id} className="group hover:shadow-lg transition-all duration-300 border-gray-200 flex flex-col justify-between overflow-hidden">
-                <CardHeader className="flex flex-row items-start gap-4 space-y-0 pb-3">
-                  <div className="p-3 bg-gray-50 rounded-xl group-hover:bg-red-50 transition-colors">{getFileIcon(file.file_type)}</div>
+                
+                <div className="relative h-32 w-full bg-gray-50 overflow-hidden border-b border-gray-100 group-hover:opacity-90 transition-opacity">
+                  {file.cover_url ? (
+                    <img 
+                      src={file.cover_url} 
+                      alt={file.title} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300 bg-gray-50">
+                       <div className="transform scale-[2.5] opacity-50">
+                          {getFileIcon(file.file_type)}
+                       </div>
+                    </div>
+                  )}
+                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm p-1.5 rounded-lg shadow-sm">
+                    {getFileIcon(file.file_type, "w-4 h-4")}
+                  </div>
+                </div>
+
+                <CardHeader className="flex flex-row items-start gap-4 space-y-0 pb-2 pt-4">
                   <div className="flex-1 min-w-0">
                     <CardTitle className="text-base font-semibold line-clamp-1 group-hover:text-red-600 transition-colors">{file.title}</CardTitle>
                     <CardDescription className="line-clamp-2 mt-1 text-xs">{file.description || "No description provided."}</CardDescription>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0"><div className="flex flex-wrap gap-2"><Badge variant="secondary" className="text-[10px] bg-gray-100">{file.category}</Badge><Badge variant="outline" className="text-[10px]">{file.department}</Badge></div></CardContent>
-                <CardFooter className="pt-3 pb-3 px-4 flex gap-2 border-t bg-gray-50/50 mt-auto">
+                
+                <CardContent className="pt-0">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <Badge variant="secondary" className="text-[10px] bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 shadow-none font-medium">
+                      {file.category}
+                    </Badge>
+                    <Badge variant="outline" className="text-[10px] text-gray-600 border-gray-300 font-medium">
+                      {file.department}
+                    </Badge>
+                  </div>
+                  <p className="text-[10px] text-gray-400">By {file.profiles?.full_name || "Unknown"}</p>
+                </CardContent>
+                
+                <CardFooter className="pt-2 pb-3 px-4 flex gap-2 border-t bg-gray-50/50 mt-auto">
                   <Button variant="default" size="sm" className="w-full gap-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-100 hover:text-black shadow-sm" onClick={() => handleDownload(file.file_path)}><Download className="w-3 h-3" /> Download</Button>
                   {isAdmin && (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-9 w-9"><MoreVertical className="w-3 h-3 text-gray-500" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => { setEditMode(file); setFormData({ title: file.title, description: file.description, category: file.category, department: file.department, file: null }); setIsModalOpen(true); }}><Edit className="w-3 h-3 mr-2" /> Edit</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(file)} className="text-red-600"><Trash2 className="w-3 h-3 mr-2" /> Delete</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setEditMode(file); setFormData({ title: file.title, description: file.description, category: file.category, department: file.department, file: null, cover: null }); setIsModalOpen(true); }}><Edit className="w-3 h-3 mr-2" /> Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setFileToDelete(file)} className="text-red-600"><Trash2 className="w-3 h-3 mr-2" /> Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   )}
@@ -632,10 +790,26 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
           </div>
         </ScrollArea>
       </div>
+
+      <Dialog open={!!fileToDelete} onOpenChange={(open) => !open && setFileToDelete(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600"><AlertTriangle className="w-5 h-5"/> Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete <span className="font-bold text-gray-900">"{fileToDelete?.title}"</span>? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setFileToDelete(null)}>Cancel</Button>
+            <Button variant="destructive" onClick={confirmDelete}>Delete File</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
+// --- 4. ADMIN CMS ---
 const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
   const [publicReports, setPublicReports] = useState<PublicReport[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -736,8 +910,13 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
               <div className="space-y-2"><Label>Title</Label><Input value={reportTitle} onChange={e => setReportTitle(e.target.value)} required /></div>
               <div className="space-y-2"><Label>Department</Label><Select value={reportDept} onValueChange={setReportDept} disabled={!isSuperAdmin}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Trading">Trading</SelectItem><SelectItem value="Asset Management">Asset Management</SelectItem><SelectItem value="Research">Research</SelectItem><SelectItem value="Operations">Operations</SelectItem></SelectContent></Select></div>
               <div className="space-y-2"><Label>Description</Label><Textarea value={reportDesc} onChange={e => setReportDesc(e.target.value)} rows={3} /></div>
+
+              {/* PDF Input */}
               <div className="space-y-2"><Label>{editMode ? "Replace PDF (Optional)" : "Report PDF"}</Label><Input type="file" name="file" accept="application/pdf" required={!editMode} /></div>
+
+              {/* Cover Image Input - NOVO CAMPO */}
               <div className="space-y-2"><Label>Cover Image (Optional)</Label><Input type="file" name="cover" accept="image/*" /></div>
+
               <div className="flex gap-2 pt-2">{editMode && <Button type="button" variant="outline" onClick={() => { setEditMode(null); setReportTitle(""); setReportDesc(""); }} className="flex-1">Cancel</Button>}<Button type="submit" disabled={uploading} className="flex-1 bg-red-600 hover:bg-red-700">{uploading ? "Publishing..." : (editMode ? "Update" : "Publish")}</Button></div>
             </form>
           </CardContent>
@@ -768,6 +947,7 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
   );
 };
 
+// --- 5. PERFIL PRO ---
 const ProfileSettings = ({ profile, user, signOut, refreshProfile }: { profile: Profile | null, user: any, signOut: () => void, refreshProfile: () => void }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -822,6 +1002,7 @@ const ProfileSettings = ({ profile, user, signOut, refreshProfile }: { profile: 
   );
 }
 
+// --- MAIN DASHBOARD PAGE ---
 export default function DashboardPage() {
   const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
@@ -872,16 +1053,18 @@ export default function DashboardPage() {
   return (
     <PageTransition>
       <div className="min-h-screen flex bg-gray-50/50">
-        <aside className="hidden md:block w-72 h-screen sticky top-0 shadow-2xl z-30"><SidebarContent /></aside>
-        <div className="flex-1 flex flex-col min-h-screen">
-          <header className="md:hidden h-16 border-b flex items-center justify-between px-4 bg-white sticky top-0 z-20 shadow-sm">
+        <aside className="hidden md:block w-72 h-screen sticky top-0 shadow-2xl z-30 flex-shrink-0">
+            <SidebarContent />
+        </aside>
+        <div className="flex-1 flex flex-col min-h-screen w-full overflow-hidden">
+          <header className="md:hidden h-16 border-b flex items-center justify-between px-4 bg-white sticky top-0 z-20 shadow-sm flex-shrink-0">
             <span className="font-bold text-lg text-gray-900">ITIC Portal</span>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}><SheetTrigger asChild><Button variant="ghost" size="icon"><Menu /></Button></SheetTrigger><SheetContent side="left" className="p-0 w-72"><SidebarContent /></SheetContent></Sheet>
           </header>
-          <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
-            <div className="max-w-7xl mx-auto h-full">
+          <main className="flex-1 p-6 md:p-10 overflow-y-auto w-full">
+            <div className="max-w-7xl mx-auto h-full w-full">
               <AnimatePresence mode="wait">
-                <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="h-full">
+                <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="h-full w-full">
                   {activeTab === 'overview' && <DashboardOverview user={user} profile={myProfile} setActiveTab={setActiveTab} />}
                   {activeTab === 'repository' && <AdvancedRepository userProfile={myProfile} isAdmin={isAdmin} />}
                   {activeTab === 'team' && isAdmin && <DepartmentManager myProfile={myProfile} />}
