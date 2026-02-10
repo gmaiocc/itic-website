@@ -297,7 +297,7 @@ const AboutPage = () => {
 
                   <div className="flex justify-center pt-4">
                     <a
-                      href="/departments"
+                      href="/departments/trading"
                       className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/10 group"
                     >
                       Explore Departments
