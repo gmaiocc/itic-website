@@ -91,11 +91,12 @@ const FAQPage = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white font-sans">
         <Navbar />
         <main className="pt-20">
           
-          <section className="py-20 bg-gray-50 border-b border-gray-200">
+          {/* Hero Section Responsiva */}
+          <section className="py-16 md:py-24 bg-gray-50 border-b border-gray-200">
             <div className="container mx-auto px-4 text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -109,7 +110,7 @@ const FAQPage = () => {
                 <h1 className="text-4xl md:text-6xl font-heading font-bold text-gray-900 mb-6">
                   Frequently Asked <br /> Questions
                 </h1>
-                <p className="text-xl text-gray-500 mb-8">
+                <p className="text-lg md:text-xl text-gray-500 mb-8 px-4">
                   Everything you need to know about the recruitment process, departments, and life at ITIC.
                 </p>
 
@@ -126,7 +127,8 @@ const FAQPage = () => {
             </div>
           </section>
 
-          <section className="py-20">
+          {/* FAQ List Section Responsiva */}
+          <section className="py-16 md:py-20">
             <div className="container mx-auto px-4 max-w-3xl">
               {filteredFaqs.length > 0 ? (
                 <div className="space-y-12">
@@ -154,15 +156,15 @@ const FAQPage = () => {
                             >
                               <button
                                 onClick={() => toggleFAQ(item.id)}
-                                className="flex items-center justify-between w-full p-6 text-left"
+                                className="flex items-start md:items-center justify-between w-full p-6 text-left gap-4"
                               >
-                                <span className={`font-semibold text-lg pr-8 ${isOpen ? "text-red-700" : "text-gray-900"}`}>
+                                <span className={`font-semibold text-base md:text-lg ${isOpen ? "text-red-700" : "text-gray-900"}`}>
                                   {item.q}
                                 </span>
-                                <span className={`flex-shrink-0 p-1 rounded-full transition-colors duration-300 ${
+                                <span className={`flex-shrink-0 p-1 rounded-full transition-colors mt-1 md:mt-0 ${
                                   isOpen ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"
                                 }`}>
-                                  {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                                  {isOpen ? <Minus className="w-4 h-4 md:w-5 md:h-5" /> : <Plus className="w-4 h-4 md:w-5 md:h-5" />}
                                 </span>
                               </button>
                               <AnimatePresence>
@@ -173,7 +175,7 @@ const FAQPage = () => {
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3, ease: "easeInOut" }}
                                   >
-                                    <div className="px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line">
+                                    <div className="px-6 pb-6 text-gray-600 leading-relaxed whitespace-pre-line text-sm md:text-base">
                                       {item.a}
                                     </div>
                                   </motion.div>
@@ -205,23 +207,24 @@ const FAQPage = () => {
             </div>
           </section>
 
-          <section className="py-20 bg-gray-900 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          {/* CTA Section Responsiva */}
+          <section className="py-16 md:py-24 bg-gray-900 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             
             <div className="container mx-auto px-4 text-center relative z-10">
               <div className="max-w-2xl mx-auto">
                 <MessageCircle className="w-12 h-12 text-red-500 mx-auto mb-6" />
                 <h2 className="text-3xl font-bold mb-4">Still have questions?</h2>
-                <p className="text-gray-400 mb-8 text-lg">
+                <p className="text-gray-400 mb-8 text-lg px-4">
                   Can't find the answer you're looking for? Feel free to reach out to us directly on our social media or via email.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="/contact">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto px-4">
+                  <a href="/contact" className="w-full sm:w-auto">
                     <Button className="bg-white text-gray-900 hover:bg-gray-100 font-bold px-8 py-6 rounded-full text-lg w-full sm:w-auto">
                       Contact Us
                     </Button>
                   </a>
-                  <a href="https://www.instagram.com/itic_ibs/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.instagram.com/itic_ibs/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                     <Button variant="outline" className="border-gray-700 text-gray-900 hover:bg-gray-800 hover:text-white font-bold px-8 py-6 rounded-full text-lg w-full sm:w-auto">
                       Visit Instagram <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>

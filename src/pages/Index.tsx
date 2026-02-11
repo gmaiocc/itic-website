@@ -7,7 +7,7 @@ import PageTransition from "@/components/PageTransition";
 const Index = () => {
   return (
     <PageTransition>
-      <div className="min-h-screen">
+      <div className="min-h-[100svh]">
         <Navbar />
         <Hero />
         <About />

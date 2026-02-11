@@ -63,7 +63,7 @@ const Navbar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger 
-                    className="bg-transparent hover:bg-transparent text-gray-700 hover:text-red-600 text-sm font-medium data-[state=open]:bg-transparent focus:bg-transparent px-0 h-auto py-0 w-auto"
+                    className="bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-gray-700 hover:text-red-600 focus:text-red-600 data-[state=open]:text-red-600 text-sm font-medium px-0 h-auto py-0 w-auto"
                   >
                     Departments
                   </NavigationMenuTrigger>
@@ -91,7 +91,6 @@ const Navbar = () => {
 
             <Link to="/reports" className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">Reports</Link>
 
-            
             <Link to="/contact">
               <button className="px-6 py-2.5 text-sm font-bold text-white bg-red-600 rounded-full hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-red-600/20 active:scale-95">
                 Contact

@@ -109,64 +109,64 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
   }, []);
 
   return (
-    <div className="space-y-8 w-full">
+    <div className="space-y-6 md:space-y-8 w-full">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-8 md:p-10 shadow-xl">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white p-6 md:p-10 shadow-xl">
         <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
-          <Avatar className="w-20 h-20 border-4 border-white/10 shadow-lg">
+          <Avatar className="w-16 h-16 md:w-20 md:h-20 border-4 border-white/10 shadow-lg shrink-0">
             <AvatarImage src={profile?.avatar_url} className="object-cover" />
-            <AvatarFallback className="text-2xl bg-red-600 text-white font-bold">{profile?.full_name?.charAt(0) || user?.email?.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-xl md:text-2xl bg-red-600 text-white font-bold">{profile?.full_name?.charAt(0) || user?.email?.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h2 className="text-3xl font-heading font-bold">Hello, {profile?.full_name?.split(' ')[0] || "Member"}</h2>
-            <p className="text-gray-400 text-lg">Welcome to your ITIC workspace.</p>
-            <div className="flex gap-2 mt-2">
-              <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20">{profile?.department || "General Member"}</Badge>
-              <Badge variant="outline" className="text-gray-300 border-gray-600">{profile?.position || "Member"}</Badge>
+            <h2 className="text-2xl md:text-3xl font-heading font-bold">Hello, {profile?.full_name?.split(' ')[0] || "Member"}</h2>
+            <p className="text-gray-400 text-base md:text-lg">Welcome to your ITIC workspace.</p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <Badge variant="secondary" className="bg-white/10 text-white hover:bg-white/20 text-xs">{profile?.department || "General Member"}</Badge>
+              <Badge variant="outline" className="text-gray-300 border-gray-600 text-xs">{profile?.position || "Member"}</Badge>
             </div>
           </div>
         </div>
       </div>
 
       {/* Quick Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:gap-6 md:grid-cols-3">
         <Card className="hover:shadow-lg transition-all border-l-4 border-l-red-500 shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Access Level</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 p-4 md:p-6">
+            <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Access Level</CardTitle>
             <ShieldAlert className="h-4 w-4 text-red-500" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl font-bold">{profile?.role === 'admin' ? 'Administrator' : 'Standard Member'}</div>
+          <CardContent className="p-4 md:p-6 pt-0">
+            <div className="text-lg md:text-xl font-bold">{profile?.role === 'admin' ? 'Administrator' : 'Standard Member'}</div>
             <p className="text-xs text-muted-foreground mt-1">View permissions</p>
           </CardContent>
         </Card>
         
         <Card className="hover:shadow-lg transition-all border-l-4 border-l-blue-500 shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Department</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 p-4 md:p-6">
+            <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Department</CardTitle>
             <Briefcase className="h-4 w-4 text-blue-500" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl font-bold">{profile?.department || "Unassigned"}</div>
+          <CardContent className="p-4 md:p-6 pt-0">
+            <div className="text-lg md:text-xl font-bold">{profile?.department || "Unassigned"}</div>
             <p className="text-xs text-muted-foreground mt-1">Active workspace</p>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition-all border-l-4 border-l-green-500 shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Status</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between pb-2 p-4 md:p-6">
+            <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</CardTitle>
             <Users className="h-4 w-4 text-green-500" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl font-bold">Active</div>
+          <CardContent className="p-4 md:p-6 pt-0">
+            <div className="text-lg md:text-xl font-bold">Active</div>
             <p className="text-xs text-muted-foreground mt-1">Account in good standing</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
         
         {/* Quick Actions */}
         <div className="space-y-4">
@@ -175,10 +175,10 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
              className="bg-red-50 border-red-100 hover:bg-red-100/80 hover:border-red-200 transition-all cursor-pointer group shadow-sm hover:shadow-md"
              onClick={() => setActiveTab('repository')}
            >
-             <CardContent className="p-6 flex items-center justify-between">
+             <CardContent className="p-4 md:p-6 flex items-center justify-between">
                <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-red-600 group-hover:scale-110 transition-transform"><FolderOpen className="w-6 h-6"/></div>
-                 <div><h4 className="font-bold text-gray-900 text-lg">Internal Files</h4><p className="text-sm text-gray-500">Access templates & data</p></div>
+                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-red-600 group-hover:scale-110 transition-transform flex-shrink-0"><FolderOpen className="w-5 h-5 md:w-6 md:h-6"/></div>
+                 <div><h4 className="font-bold text-gray-900 text-base md:text-lg">Internal Files</h4><p className="text-xs md:text-sm text-gray-500">Access templates & data</p></div>
                </div>
                <ArrowRight className="w-5 h-5 text-red-400 group-hover:translate-x-1 transition-transform" />
              </CardContent>
@@ -188,10 +188,10 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
              className="bg-blue-50 border-blue-100 hover:bg-blue-100/80 hover:border-blue-200 transition-all cursor-pointer group shadow-sm hover:shadow-md"
              onClick={() => navigate('/reports')}
            >
-             <CardContent className="p-6 flex items-center justify-between">
+             <CardContent className="p-4 md:p-6 flex items-center justify-between">
                <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-blue-600 group-hover:scale-110 transition-transform"><FileText className="w-6 h-6"/></div>
-                 <div><h4 className="font-bold text-gray-900 text-lg">Market Reports</h4><p className="text-sm text-gray-500">Read latest analysis</p></div>
+                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center shadow-sm text-blue-600 group-hover:scale-110 transition-transform flex-shrink-0"><FileText className="w-5 h-5 md:w-6 md:h-6"/></div>
+                 <div><h4 className="font-bold text-gray-900 text-base md:text-lg">Market Reports</h4><p className="text-xs md:text-sm text-gray-500">Read latest analysis</p></div>
                </div>
                <ArrowRight className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform" />
              </CardContent>
@@ -207,7 +207,7 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
                 <div className="divide-y divide-gray-100">
                   {recentFiles.map((file) => (
                     <div key={file.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 overflow-hidden">
                         <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center">
                           {file.cover_url ? (
                             <img src={file.cover_url} alt="" className="w-full h-full object-cover" />
@@ -216,14 +216,14 @@ const DashboardOverview = ({ user, profile, setActiveTab }: { user: any, profile
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold text-gray-900 line-clamp-1">{file.title}</p>
+                          <p className="text-sm font-semibold text-gray-900 truncate pr-2">{file.title}</p>
                           <div className="flex items-center gap-2 text-xs text-gray-500">
-                            <Badge variant="secondary" className="text-[10px] h-5 px-1">{file.department}</Badge>
+                            <Badge variant="secondary" className="text-[10px] h-5 px-1 flex-shrink-0">{file.department}</Badge>
                             <span className="truncate">by {file.profiles?.full_name || "Unknown"}</span>
                           </div>
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" onClick={() => setActiveTab('repository')}>View</Button>
+                      <Button variant="ghost" size="sm" onClick={() => setActiveTab('repository')} className="hidden sm:inline-flex">View</Button>
                     </div>
                   ))}
                 </div>
@@ -349,19 +349,19 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
     <div className="space-y-8 w-full">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">{isSuperAdmin ? "Global Team Management" : `${myDept} Department`}</h2>
-          <p className="text-muted-foreground">Manage your department members and pre-approve new signups.</p>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{isSuperAdmin ? "Global Team Management" : `${myDept} Department`}</h2>
+          <p className="text-muted-foreground text-sm md:text-base">Manage your department members and pre-approve new signups.</p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <div className="relative flex-grow md:w-64">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search members..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9 bg-white" />
+            <Input placeholder="Search members..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9 bg-white w-full" />
           </div>
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-red-600 hover:bg-red-700 text-white gap-2"><UserPlus className="w-4 h-4" /> Add Member</Button>
+              <Button className="bg-red-600 hover:bg-red-700 text-white gap-2 whitespace-nowrap"><UserPlus className="w-4 h-4" /> <span className="hidden sm:inline">Add Member</span></Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle>Pre-Approve Member</DialogTitle><DialogDescription>They will gain access upon registration.</DialogDescription></DialogHeader>
               <div className="space-y-4 py-4">
                 <Input placeholder="Email (Required)" value={newMemberData.email} onChange={e => setNewMemberData({ ...newMemberData, email: e.target.value })} />
@@ -402,13 +402,13 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
       {filteredWhitelist.length > 0 && (
         <Card className="border-yellow-500/30 bg-yellow-50/50">
           <CardHeader className="py-3"><CardTitle className="text-sm font-bold text-yellow-700 flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" /> Pending Registration ({filteredWhitelist.length})</CardTitle></CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="p-0 overflow-x-auto">
             <Table>
               <TableBody>
                 {filteredWhitelist.map((w) => (
                   <TableRow key={w.email} className="hover:bg-yellow-100/50">
-                    <TableCell className="font-medium">{w.email}</TableCell>
-                    <TableCell>{w.full_name}</TableCell>
+                    <TableCell className="font-medium min-w-[150px]">{w.email}</TableCell>
+                    <TableCell className="min-w-[150px]">{w.full_name}</TableCell>
                     {isSuperAdmin && <TableCell><Badge variant="outline" className="bg-white">{w.department}</Badge></TableCell>}
                     <TableCell>{w.position}</TableCell>
                     <TableCell className="text-right">
@@ -424,8 +424,8 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
 
       <Card className="border-gray-200 shadow-sm">
         <CardHeader><CardTitle>Active Team Members</CardTitle></CardHeader>
-        <CardContent className="p-0">
-          <Table>
+        <CardContent className="p-0 overflow-x-auto">
+          <Table className="min-w-[600px]">
             <TableHeader className="bg-gray-50/50">
               <TableRow><TableHead>Member</TableHead><TableHead className="hidden md:table-cell">Academic Info</TableHead>{isSuperAdmin && <TableHead>Dept.</TableHead>}<TableHead>Role</TableHead><TableHead className="text-right">Actions</TableHead></TableRow>
             </TableHeader>
@@ -456,7 +456,7 @@ const DepartmentManager = ({ myProfile }: { myProfile: Profile | null }) => {
       </Card>
 
       <Dialog open={!!editingMember} onOpenChange={(open) => !open && setEditingMember(null)}>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>Edit Member</DialogTitle></DialogHeader>
           {editingMember && (
             <form onSubmit={handleUpdateMember} className="space-y-4 pt-4">
@@ -606,51 +606,53 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
   return (
     <div className="flex flex-col lg:flex-row gap-8 h-full min-h-[calc(100vh-140px)] w-full">
       {/* Sidebar Filters */}
-      <Card className="w-full lg:w-72 h-fit flex-shrink-0 bg-white border-gray-200 shadow-sm">
+      <Card className="w-full lg:w-72 h-fit flex-shrink-0 bg-white border-gray-200 shadow-sm order-1 lg:order-none">
         <CardHeader className="pb-4"><CardTitle className="text-base flex items-center gap-2 font-bold"><Filter className="w-4 h-4" /> Filters</CardTitle></CardHeader>
         <CardContent className="space-y-5">
           <div className="space-y-2"><Label className="text-xs font-bold uppercase text-gray-500">Search</Label><div className="relative"><Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" /><Input placeholder="Filename..." className="pl-9" value={search} onChange={e => setSearch(e.target.value)} /></div></div>
           
-          <div className="space-y-2">
-            <Label className="text-xs font-bold uppercase text-gray-500">Department</Label>
-            <Select value={filterDept} onValueChange={setFilterDept}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All">All Departments</SelectItem>
-                <SelectItem value="Global">Global</SelectItem>
-                <SelectItem value="Trading">Trading</SelectItem>
-                <SelectItem value="Asset Management">Asset Management</SelectItem>
-                <SelectItem value="Research">Research</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase text-gray-500">Department</Label>
+              <Select value={filterDept} onValueChange={setFilterDept}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Departments</SelectItem>
+                  <SelectItem value="Global">Global</SelectItem>
+                  <SelectItem value="Trading">Trading</SelectItem>
+                  <SelectItem value="Asset Management">Asset Management</SelectItem>
+                  <SelectItem value="Research">Research</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="space-y-2">
-            <Label className="text-xs font-bold uppercase text-gray-500">Category</Label>
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All">All</SelectItem>
-                <SelectItem value="General">General</SelectItem>
-                <SelectItem value="Ebook">E-books</SelectItem>
-                <SelectItem value="Workshop">Workshops & Slides</SelectItem>
-                <SelectItem value="Template">Templates</SelectItem>
-                <SelectItem value="Report">Reports</SelectItem>
-                <SelectItem value="Meeting Notes">Meeting Minutes</SelectItem>
-                <SelectItem value="Data">Data & Models</SelectItem>
-                <SelectItem value="Cheatsheet">Cheatsheets</SelectItem>
-                <SelectItem value="Software">Software</SelectItem>
-                <SelectItem value="Legal">Legal</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase text-gray-500">Category</Label>
+              <Select value={filterCategory} onValueChange={setFilterCategory}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All</SelectItem>
+                  <SelectItem value="General">General</SelectItem>
+                  <SelectItem value="Ebook">E-books</SelectItem>
+                  <SelectItem value="Workshop">Workshops & Slides</SelectItem>
+                  <SelectItem value="Template">Templates</SelectItem>
+                  <SelectItem value="Report">Reports</SelectItem>
+                  <SelectItem value="Meeting Notes">Meeting Minutes</SelectItem>
+                  <SelectItem value="Data">Data & Models</SelectItem>
+                  <SelectItem value="Cheatsheet">Cheatsheets</SelectItem>
+                  <SelectItem value="Software">Software</SelectItem>
+                  <SelectItem value="Legal">Legal</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col gap-6 overflow-hidden w-full">
-        <div className="flex justify-between items-center">
-          <div><h2 className="text-2xl font-bold tracking-tight">Internal Repository</h2><p className="text-muted-foreground">{filteredFiles.length} files available.</p></div>
+      <div className="flex-1 flex flex-col gap-6 overflow-hidden w-full order-2 lg:order-none">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div><h2 className="text-2xl font-bold tracking-tight">Internal Repository</h2><p className="text-muted-foreground text-sm">{filteredFiles.length} files available.</p></div>
           {isAdmin && (
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
               
@@ -665,12 +667,12 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
                     file: null,
                     cover: null
                   }); 
-                }} className="bg-black text-white hover:bg-gray-800">
+                }} className="bg-black text-white hover:bg-gray-800 w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" /> Upload File
                 </Button>
               </DialogTrigger>
 
-              <DialogContent>
+              <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader><DialogTitle>{editMode ? "Edit File" : "Upload File"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 py-4">
                   <Input value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="Document Title" required />
@@ -730,7 +732,7 @@ const AdvancedRepository = ({ userProfile, isAdmin }: { userProfile: Profile | n
           )}
         </div>
 
-        <ScrollArea className="h-full pr-4 pb-20">
+        <ScrollArea className="h-full pr-0 pb-10">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {filteredFiles.map((file) => (
               <Card key={file.id} className="group hover:shadow-lg transition-all duration-300 border-gray-200 flex flex-col justify-between overflow-hidden">
@@ -900,7 +902,7 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
 
   return (
     <div className="space-y-8 pb-10">
-      <div><h2 className="text-3xl font-bold tracking-tight">Public Website CMS</h2><p className="text-muted-foreground">Manage content visible on the Reports page.</p></div>
+      <div><h2 className="text-2xl md:text-3xl font-bold tracking-tight">Public Website CMS</h2><p className="text-muted-foreground text-sm md:text-base">Manage content visible on the Reports page.</p></div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <Card className="border-gray-200 h-fit lg:col-span-1 shadow-md">
@@ -926,7 +928,7 @@ const AdminCMS = ({ myProfile }: { myProfile: Profile | null }) => {
           <CardHeader><CardTitle>Live Reports</CardTitle></CardHeader>
           <CardContent>
             <ScrollArea className="h-[500px]">
-              <Table>
+              <Table className="min-w-[500px]">
                 <TableHeader><TableRow><TableHead>Report</TableHead><TableHead>Dept.</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {publicReports.map((report) => (
@@ -976,17 +978,17 @@ const ProfileSettings = ({ profile, user, signOut, refreshProfile }: { profile: 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-10">
       <div className="relative rounded-3xl overflow-hidden bg-white border border-gray-200 shadow-xl">
-        <div className="h-32 bg-gradient-to-r from-red-600 to-red-800"></div>
-        <div className="px-8 pb-8">
-          <div className="flex flex-col md:flex-row items-end -mt-12 gap-6">
+        <div className="h-24 md:h-32 bg-gradient-to-r from-red-600 to-red-800"></div>
+        <div className="px-4 md:px-8 pb-8">
+          <div className="flex flex-col md:flex-row items-center md:items-end -mt-12 gap-6 text-center md:text-left">
             <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-              <Avatar className="w-32 h-32 border-4 border-white shadow-md"><AvatarImage src={profile?.avatar_url} className="object-cover" /><AvatarFallback className="text-4xl bg-gray-100 text-gray-500">{user.email.charAt(0)}</AvatarFallback></Avatar>
+              <Avatar className="w-24 h-24 md:w-32 md:h-32 border-4 border-white shadow-md"><AvatarImage src={profile?.avatar_url} className="object-cover" /><AvatarFallback className="text-4xl bg-gray-100 text-gray-500">{user.email.charAt(0)}</AvatarFallback></Avatar>
               <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><Camera className="w-8 h-8 text-white" /></div>
               <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleAvatarUpload} />
             </div>
             <div className="flex-1 space-y-1 pb-2">
-              <h2 className="text-3xl font-bold text-gray-900">{profile?.full_name || "ITIC Member"}</h2>
-              <div className="flex gap-2"><Badge className="bg-gray-900">{profile?.department || "General"}</Badge><Badge variant="outline">{profile?.position || "Member"}</Badge></div>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{profile?.full_name || "ITIC Member"}</h2>
+              <div className="flex justify-center md:justify-start gap-2"><Badge className="bg-gray-900">{profile?.department || "General"}</Badge><Badge variant="outline">{profile?.position || "Member"}</Badge></div>
             </div>
             <Button variant="outline" onClick={signOut} className="text-red-600 hover:bg-red-50 border-red-200 mb-2 gap-2"><LogOut className="w-4 h-4" /> Sign Out</Button>
           </div>
@@ -1044,7 +1046,7 @@ export default function DashboardPage() {
       <div className="p-4 border-t border-gray-800 bg-gray-950/50">
         <div className="flex items-center gap-3 px-2">
           <Avatar className="w-9 h-9 border border-gray-700"><AvatarImage src={myProfile?.avatar_url} /><AvatarFallback className="bg-gray-800 text-gray-400">{user?.email?.charAt(0)}</AvatarFallback></Avatar>
-          <div className="overflow-hidden"><p className="text-sm font-medium text-white truncate">{myProfile?.full_name || "User"}</p><p className="text-xs text-gray-500 truncate">{isAdmin ? 'Administrator' : 'Member'}</p></div>
+          <div className="overflow-hidden"><p className="text-sm font-medium text-white truncate max-w-[140px]">{myProfile?.full_name || "User"}</p><p className="text-xs text-gray-500 truncate">{isAdmin ? 'Administrator' : 'Member'}</p></div>
         </div>
       </div>
     </div>
@@ -1053,15 +1055,18 @@ export default function DashboardPage() {
   return (
     <PageTransition>
       <div className="min-h-screen flex bg-gray-50/50">
-        <aside className="hidden md:block w-72 h-screen sticky top-0 shadow-2xl z-30 flex-shrink-0">
+        <aside className="hidden lg:block w-72 h-screen sticky top-0 shadow-2xl z-30 flex-shrink-0">
             <SidebarContent />
         </aside>
         <div className="flex-1 flex flex-col min-h-screen w-full overflow-hidden">
-          <header className="md:hidden h-16 border-b flex items-center justify-between px-4 bg-white sticky top-0 z-20 shadow-sm flex-shrink-0">
-            <span className="font-bold text-lg text-gray-900">ITIC Portal</span>
+          <header className="lg:hidden h-16 border-b flex items-center justify-between px-4 bg-white sticky top-0 z-20 shadow-sm flex-shrink-0">
+            <div className="flex items-center gap-3">
+               <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white font-bold">I</div>
+               <span className="font-bold text-lg text-gray-900">ITIC Portal</span>
+            </div>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}><SheetTrigger asChild><Button variant="ghost" size="icon"><Menu /></Button></SheetTrigger><SheetContent side="left" className="p-0 w-72"><SidebarContent /></SheetContent></Sheet>
           </header>
-          <main className="flex-1 p-6 md:p-10 overflow-y-auto w-full">
+          <main className="flex-1 p-4 md:p-10 overflow-y-auto w-full">
             <div className="max-w-7xl mx-auto h-full w-full">
               <AnimatePresence mode="wait">
                 <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="h-full w-full">
